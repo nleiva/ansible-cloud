@@ -1,0 +1,8 @@
+---
+# vars file for aws-create-ec2
+aws_region: "{{ aws_region_choice | default('us-east-1') }}"
+
+#Instance Tags
+ec2_contact_tag: "{{ ec2_contact_tag_choice | default('nleiva@redhat.com') }}"
+ec2_always_up_tag: "{{ ec2_always_up_tag_choice | default('NO') }}"
+ec2_delete_by_tag: "{{ ansible_date_time.date | replace('-','.') }}"

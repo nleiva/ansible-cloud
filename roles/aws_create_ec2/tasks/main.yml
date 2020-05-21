@@ -1,0 +1,5 @@
+---
+# tasks file for aws-create-ec2
+
+- name: Provision EC2 Instance
+  include_tasks: create_ec2_instance.yml

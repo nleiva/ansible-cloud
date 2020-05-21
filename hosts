@@ -1,0 +1,6 @@
+localhost   ansible_python_interpreter="/usr/bin/env python3"
+
+[all:vars]
+# Replace this with real values
+ansible_user=ansible
+ansible_password=ansible
