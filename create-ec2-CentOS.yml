@@ -1,0 +1,22 @@
+---
+# ansible-playbook create-ec2-CentOS.yml -vv
+
+- name: Create EC2 instance
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: true
+  vars:
+   - ec2_instance_type: t2.micro
+   - ec2_ami_id: ami-0affd4508a5d2481b
+   - ec2_name_tag: nleiva-centos-7.8
+   - volume: 
+     - device_name: /dev/sda1
+       volume_type: gp2
+       volume_size: 30
+       delete_on_termination: true
+
+  tasks:
+    - name: Create CentOS EC2 instance in AWS
+      include_role:
+        name: aws_create_ec2
