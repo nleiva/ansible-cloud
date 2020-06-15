@@ -4,3 +4,4 @@ localhost   ansible_python_interpreter="/usr/bin/env python3"
 # Replace this with real values
 ansible_user=ansible
 ansible_password=ansible
+ec2_region=us-east-1

@@ -4,6 +4,7 @@
     host: "{{ item.public_ip }}" 
     port: 22 
     state: started
+
 - name: Print the public IP address
   debug:
     msg: "We are able to SSH to {{ item.public_ip }}" 

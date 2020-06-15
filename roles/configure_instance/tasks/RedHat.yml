@@ -1,0 +1,78 @@
+---
+- name: Setup hostname
+  hostname:
+    name: "{{ hostvars['localhost']['instance_name'] }}"
+  when: hostvars['localhost']['instance_name'] is defined
+
+- name: Install EPEL repo (to install Ansible)
+  yum:
+    name: "{{ epel_repo }}"
+    state: present
+  register: result
+  until: result is succeeded
+  retries: 5
+  delay: 10
+
+- name: Install base packages
+  yum:
+    name:
+      - git
+      - wget
+      - tree
+      - python3-pip
+      - python3-devel
+      - ansible
+      - gcc
+      - bind-utils
+      - docker
+    state: present
+  register: yum_check
+  until: yum_check is not failed
+  retries: 4
+  delay: 5
+  when: ansible_pkg_mgr == "yum"
+
+- name: Install Python dependencies
+  pip:
+    name:
+      - absl-py
+      - ipaddress
+      - capirca
+      - ansible
+    executable: pip3
+
+- name: Update Ansible Interpeter for {{ user }} user
+  blockinfile:
+    path: "/home/{{ user }}/.ansible.cfg"
+    create: yes
+    block: |
+      [defaults]
+      interpreter_python=/usr/bin/python3
+      ansible_python_interpreter=/usr/bin/python3
+
+- name: Change file ownership and group for Ansible config
+  file:
+    path: "/home/{{ user }}/.ansible.cfg"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+
+- name: Ensure group "docker" exists
+  group:
+    name: docker
+    state: present
+
+- name: Append user {{ user }} to the group 'docker'
+  user:
+    name: "{{ user }}"
+    groups: docker
+    append: yes
+
+- name: Ensure Docker is started and enabled at boot
+  service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Print the public IP address
+  debug:
+    msg: "TO CONNECT: ssh {{ user }}@{{ ansible_host }}" 
