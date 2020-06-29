@@ -14,7 +14,7 @@
    - ec2_vpc_subnet_id: subnet-0a121ad1006804c1c
    - ec2_keypair_name: networkshop-key
    - ec2_user_data: ''
- 
+
   tasks:
     - name: Create EC2 instance in AWS
       include_role:

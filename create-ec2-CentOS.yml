@@ -12,7 +12,7 @@
    - ec2_ami_id: ami-0affd4508a5d2481b
    - ec2_name_tag: nleiva-centos-7.8
    - ec2_username: centos
-   - volume: 
+   - volume:
      - device_name: /dev/sda1
        volume_type: gp2
        volume_size: 30
@@ -25,12 +25,12 @@
 
     - name: Grab facts for the instance(s) we just created
       ec2_instance_info:
-        region: "{{ ec2_region }}" 
+        region: "{{ ec2_region }}"
         filters:
           instance-state-name: running
           "tag:Name": "{{ ec2_name_tag }}"
       register: ansible_node_facts
-    
+
     - name: Set facts for next play
       set_fact:
         instance_name: "{{ ec2_name_tag }}"
@@ -45,7 +45,7 @@
           - my_instances
       with_items: "{{ ansible_node_facts.instances }}"
 
-    
+
 # Play 2: Install packages
 - name: Configure Instance(s)
   hosts: "my_instances"
