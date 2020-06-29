@@ -75,4 +75,4 @@
 
 - name: Print the public IP address
   debug:
-    msg: "TO CONNECT: ssh {{ user }}@{{ ansible_host }}" 
+    msg: "TO CONNECT: ssh {{ user }}@{{ ansible_host }}"
