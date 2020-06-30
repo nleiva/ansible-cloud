@@ -40,6 +40,7 @@
         name: "{{ item.tags.Name }}"
         ansible_host: "{{ item.public_ip_address }}"
         ansible_user: "{{ ec2_username }}"
+        ansible_ssh_private_key_file: "{{ ansible_ssh_private_key_file }}"
         private_ip: "{{ item.private_ip_address }}"
         groups:
           - my_instances
