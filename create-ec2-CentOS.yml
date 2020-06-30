@@ -45,7 +45,7 @@
           - my_instances
       with_items: "{{ ansible_node_facts.instances }}"
 
-      
+
 # Play 2: Install packages
 - name: Configure Instance(s)
   hosts: "my_instances"
