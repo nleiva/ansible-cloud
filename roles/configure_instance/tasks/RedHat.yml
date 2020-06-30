@@ -50,6 +50,13 @@
       interpreter_python=/usr/bin/python3
       ansible_python_interpreter=/usr/bin/python3
 
+# https://blog.thewatertower.org/2019/06/08/using-red-hat-universal-base-images/
+- name: Create empty redhat-uep.pem file to run universal base images
+  file:
+    path: /etc/rhsm/ca/redhat-uep.pem
+    state: touch
+    mode: u=rw,g=r,o=r
+
 - name: Change file ownership and group for Ansible config
   file:
     path: "/home/{{ user }}/.ansible.cfg"
