@@ -1,0 +1,35 @@
+---
+# ansible-playbook stop-ec2-tag-image.yml -vv
+
+# Play 1: Stop instance on AWS and delete if required
+- name: Stop EC2 instance by Name TAG
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  vars:
+   - ec2_name_tag: nleiva-centos-7.8
+   - ec2_region: us-east-1
+   - delete: false
+
+  tasks:
+    - name: Stop instances
+      ec2:
+        region: "{{ ec2_region }}"
+        instance_tags:
+            Name: "{{ ec2_name_tag }}"
+        state: stopped
+      register: stopped_instances
+
+    - name: Print out instances to be deleted (it won't do it by default)
+      debug:
+        msg: "Instances to be deleted if defined: {{ stopped_instances.instance_ids | join(', ') }}"
+
+    - name: Destroy instances
+      ec2:
+        region: "{{ ec2_region }}"
+        state: absent
+        instance_ids: "{{ stopped_instances.instance_ids | list }}"
+        wait: true
+      register: result_ec2_destroy
+      when: delete
