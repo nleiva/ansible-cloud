@@ -1,0 +1,4 @@
+---
+- name: Apply network device template
+  cli_config:
+    config: "{{ lookup('template', 'templates/{{ ansible_network_os }}.j2') }}"

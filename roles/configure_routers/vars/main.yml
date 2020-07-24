@@ -1,0 +1,18 @@
+---
+device:
+  rtr1:
+    site: 1
+    local_as: 65000
+    bgp_tunnel_ip: "192.0.2.1"
+    bgp_tunnel_destination: "{{ hostvars['nleiva-cisco-ios-2'].private_ip }}"
+    bgp_neighbor: "rtr2"
+    ospf_tunnel_ip: "198.51.100.1"
+    ospf_tunnel_destination: "{{ hostvars['nleiva-cisco-ios-2'].private_ip }}"
+  rtr2:
+    site: 2
+    local_as: 65001
+    bgp_tunnel_ip: "192.0.2.2"
+    bgp_tunnel_destination: "{{ hostvars['nleiva-cisco-ios-1'].private_ip }}"
+    bgp_neighbor: "rtr1"
+    ospf_tunnel_ip: "198.51.100.2"
+    ospf_tunnel_destination: "{{ hostvars['nleiva-cisco-ios-1'].private_ip }}"

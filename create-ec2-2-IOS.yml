@@ -1,0 +1,60 @@
+---
+# ansible-playbook create-ec2-2-IOS.yml -vv
+
+- name: Create EC2 instance(s)
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: true
+  vars:
+   - ec2_instance_type: t3.medium
+   - ec2_ami_id: ami-02addb0b26ef52535
+   - ec2_name_tag: nleiva-cisco-ios
+   - ec2_security_group: network-insecure_all
+   - ec2_vpc_subnet_id: subnet-0a121ad1006804c1c
+   - ec2_keypair_name: networkshop-key
+   - ec2_user_data: ''
+   - ec2_vpc_id: vpc-067602393f45a4429
+   - ec2_username: ec2-user
+   - my_os: ios
+
+  tasks:
+    - name: Loop to create N (2) instances
+      include_tasks: create-ec2-2-IOS-tasks.yml
+      loop:
+        - 1
+        - 2
+      loop_control:
+        loop_var: router_number
+
+    - name: Grab all network interfaces for VPC (NETWORKING MODE)
+      ec2_eni_facts:
+        region: "{{ ec2_region }}"
+        filters:
+          vpc-id: "{{ ec2_vpc_id }}"
+      register: eni_facts
+
+    - name: Disable Source/Dest check on instances (NETWORKING MODE)
+      ec2_eni:
+        eni_id: "{{ item['network_interface_id'] }}"
+        region: "{{ ec2_region }}"
+        source_dest_check: false
+      with_items:
+      - "{{ eni_facts['network_interfaces'] }}"
+
+# Play 2: Install packages
+- name: Configure Instance(s)
+  hosts: "my_routers"
+  connection: network_cli
+  become: true
+  become_method: enable
+  gather_facts: true
+
+  tasks:
+    - name: Display variables/facts known for instance
+      debug:
+        msg: "Running {{ ansible_net_model }} {{ ansible_net_version }}, IP address: {{ ansible_host }}"
+
+    - name: Configure router {{ ansible_hostname }} [{{ short_name }}]
+      include_role:
+        name: configure_routers

@@ -1,0 +1,31 @@
+---
+- name: Create EC2 instance {{ router_number }} in AWS
+  include_role:
+    name: aws_create_ec2
+  vars:
+    - ec2_name_tag: "nleiva-cisco-ios-{{ router_number }}"
+
+- name: Save Router-{{ router_number }} data
+  set_fact:
+    rtr_facts: "{{ ec2 }}"
+
+- name: Add instance {{ router_number }} to my_routers group
+  add_host:
+    name: "{{ item.tags.Name }}"
+    ansible_host: "{{ item.public_ip }}"
+    ansible_user: "{{ ec2_username }}"
+    ansible_network_os: "{{ my_os }}"
+    private_ip: "{{ item.private_ip }}"
+    short_name: "rtr{{ router_number }}"
+    site: "{{ router_number }}"
+    groups:
+      - my_routers
+  with_items: "{{ rtr_facts.instances }}"
+
+- name: Print out Router-{{ router_number }} Private IP
+  debug:
+    var: rtr_facts['instances'][0]['private_ip']
+
+- name: Access to Router-{{ router_number }} (Public IP)
+  debug:
+    msg: "ssh ec2-user@{{ rtr_facts['instances'][0]['public_ip'] }}"
