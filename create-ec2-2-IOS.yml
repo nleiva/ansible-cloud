@@ -9,6 +9,7 @@
   vars_files:
     - ./vars/sw_version.yml
     - ./vars/aws_specifics.yml
+    - ./vars/aws_common.yml
   vars:
    - ec2_instance_type: c4.large
    - ec2_ami_id: "{{ map['CSR_16_12'] }}"
