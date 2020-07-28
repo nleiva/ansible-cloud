@@ -18,6 +18,7 @@
     private_ip: "{{ item.private_ip }}"
     short_name: "rtr{{ router_number }}"
     site: "{{ router_number }}"
+    access: "ssh ec2-user@{{ rtr_facts['instances'][0]['public_ip'] }}"
     groups:
       - my_routers
   with_items: "{{ rtr_facts.instances }}"
@@ -25,7 +26,3 @@
 - name: Print out Router-{{ router_number }} Private IP
   debug:
     var: rtr_facts['instances'][0]['private_ip']
-
-- name: Access to Router-{{ router_number }} (Public IP)
-  debug:
-    msg: "ssh ec2-user@{{ rtr_facts['instances'][0]['public_ip'] }}"

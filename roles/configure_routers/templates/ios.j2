@@ -1,37 +1,50 @@
-hostname {{short_name}}
+hostname {{ short_name }}
 !
 router ospf 1
- router-id 192.168.{{site}}.{{site}}
- redistribute bgp {{ device[short_name].local_as }} subnets
+ router-id 203.0.113.{{ site }}
 !
 interface Loopback0
- ip address 192.168.{{ site }}.{{ site }} 255.255.255.255
+ ip address 203.0.113.{{ site }} 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Loopback100
+ ip address 100.64.0.{{ site }} 255.192.0.0
 !
 interface Tunnel0
- ip address {{ device[short_name].ospf_tunnel_ip }} 255.255.255.0
+ description TUNNEL: Primary back-to-back connection
+ ip address {{ device[short_name].primary_tunnel_ip }} 255.255.255.0
+ ip mtu 1416
+ ip tcp adjust-mss 1360
+ ip ospf 1 area 0
+ tunnel mode gre ip
+ tunnel source GigabitEthernet1
+ tunnel destination {{ device[short_name].tunnel_destination }}
+!
+interface Tunnel1
+ description TUNNEL: Secondary back-to-back connection
+ ip address {{ device[short_name].secondary_tunnel_ip }} 255.255.255.0
  ip mtu 1476
  ip tcp adjust-mss 1360
  ip ospf 1 area 0
+ tunnel mode ipip
  tunnel source GigabitEthernet1
- tunnel destination {{ device[short_name].ospf_tunnel_destination }}
+ tunnel destination {{ device[short_name].tunnel_destination }}
 !
-interface Tunnel1
- ip address {{ device[short_name].bgp_tunnel_ip }} 255.255.255.0
- tunnel source GigabitEthernet1
- tunnel destination {{ device[short_name].bgp_tunnel_destination }}
+interface GigabitEthernet1
+ description UPLINK: AWS Connection
 !
 {% set neighbor = device[short_name].bgp_neighbor %}
 router bgp {{ device[short_name].local_as }}
- bgp router-id 192.168.{{site}}.{{site}}
+ bgp router-id 203.0.113.{{ site }}
  bgp log-neighbor-changes
- neighbor {{ device[neighbor].bgp_tunnel_ip }} remote-as {{ device[neighbor].local_as }}
- neighbor {{ device[neighbor].bgp_tunnel_ip }} ebgp-multihop 255
+ neighbor {{ device[neighbor].bgp_ip }} remote-as {{ device[neighbor].local_as }}
+ neighbor {{ device[neighbor].bgp_ip }} ebgp-multihop 5
+ neighbor {{ device[neighbor].bgp_ip }} update-source Loopback 0
 !
  address-family ipv4
-  redistribute ospf 1
-  neighbor {{ device[neighbor].bgp_tunnel_ip }} activate
-  network 192.168.{{site}}.{{site}} mask 255.255.255.255
-  network {{ (device[short_name].ospf_tunnel_ip ~ '/24') | ipaddr('network') }} mask 255.255.255.0
-  network 192.0.2.0 mask 255.255.255.0
+  neighbor {{ device[neighbor].bgp_ip }} activate
+  network {{ (device[short_name].primary_tunnel_ip ~ '/24') | ipaddr('network') }} mask 255.255.255.0
+  network {{ (device[short_name].secondary_tunnel_ip ~ '/24') | ipaddr('network') }} mask 255.255.255.0
   network {{ (private_ip ~ '/16') | ipaddr('network') }}
+  network 100.64.0.0 mask 255.192.0.0
  exit-address-family
