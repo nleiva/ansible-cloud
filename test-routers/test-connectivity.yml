@@ -1,0 +1,30 @@
+---
+# These Playbooks are meant to be run in a Ansible Tower Workflow. It uses a dynamic inventory from AWS created instances.
+
+# hosts: tag_Name_nleiva_cisco_ios_1 & tag_Name_nleiva_cisco_ios_2
+
+# Play 1
+- name: Validate Connectivity
+  hosts: "{{ my_devices }}"
+  gather_facts: "{{ my_facts }}"
+  connection: network_cli
+  become: true
+  become_method: enable
+  vars:
+    dest_ip: 203.0.113.2
+    remote_host: Router-2
+    source_int: Loopback0
+    outcome: present
+
+  tasks:
+    - name: Test reachability to {{ dest_ip }} ({{ remote_host }})
+      ios_ping:
+        dest: "{{ dest_ip }}"
+        source: "{{ source_int }}"
+        count: 2
+        state: "{{ outcome }}"
+      register: output
+
+    - name: Print ot ping result to {{ dest_ip }} ({{ remote_host }})
+      debug:
+        var: output.stdout

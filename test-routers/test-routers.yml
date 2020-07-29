@@ -1,8 +1,8 @@
 ---
-# ansible-playbook test-routers.yml -vv
+# These Playbooks are meant to be run in a Ansible Tower Workflow. It uses a dynamic inventory from AWS created instances.
 
 # Play 1
-- name: Configure Router(s)
+- name: Validate Connectivity
   hosts: tag_Name_nleiva_cisco_ios_1
   connection: network_cli
   become: true
