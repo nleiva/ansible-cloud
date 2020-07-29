@@ -1,0 +1,23 @@
+---
+# These Playbooks are meant to be run in a Ansible Tower Workflow. It uses a dynamic inventory from AWS created instances.
+
+# hosts: tag_Name_nleiva_cisco_ios_1 & tag_Name_nleiva_cisco_ios_2
+
+# Play 1
+- name: Validate Connectivity
+  hosts: "{{ my_devices }}"
+  gather_facts: "{{ my_facts }}"
+  connection: network_cli
+  become: true
+  become_method: enable
+  vars:
+    interfaces: [Tunnel0, Tunnel1]
+    state: True
+
+  tasks:
+    - name: Bring interfaces back up
+      ios_interfaces:
+        config:
+          - name: "{{ item }}" 
+            enabled: "{{ state }}"
+      with_items: "{{ interfaces }}" 
