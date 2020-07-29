@@ -25,6 +25,6 @@
         state: "{{ outcome }}"
       register: result
 
-    - name: Print ot ping result to {{ dest_ip }} ({{ remote_host }})
+    - name: Print out ping result to {{ dest_ip }} ({{ remote_host }})
       debug:
         msg: "Executed '{{ result.commands }}' with {{ result.packet_loss }} packet loss"
