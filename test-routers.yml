@@ -5,6 +5,7 @@
 - name: Configure Router(s)
   hosts: tag_Name_nleiva_cisco_ios_1
   connection: network_cli
+  network_os: ios
   become: true
   become_method: enable
   gather_facts: true
