@@ -1,0 +1,65 @@
+---
+# ansible-playbook test-routers.yml -vv
+
+# Play 1
+- name: Configure Router(s)
+  hosts: tag_Name_nleiva_cisco_ios_1
+  connection: network_cli
+  become: true
+  become_method: enable
+  gather_facts: true
+
+  tasks:
+    - name: Test reachability to 203.0.113.2 (Router-2's Loopback)
+      ios_ping:
+        dest: 203.0.113.2
+        source: Loopback0
+        count: 2
+
+    - name: Shutdown Tunnel0
+      ios_interfaces:
+        config:
+          - name: Tunnel0
+            enabled: False
+
+    - name: Test reachability to 203.0.113.2 (Router-2's Loopback)
+      ios_ping:
+        dest: 203.0.113.2
+        source: Loopback0
+        count: 2
+
+    - name: Shutdown Tunnel1
+      ios_interfaces:
+        config:
+          - name: Tunnel1
+            enabled: False
+
+    - name: Test reachability to 203.0.113.2 (Router-2's Loopback)
+      ios_ping:
+        dest: 203.0.113.2
+        source: Loopback0
+        count: 2
+      ignore_errors: yes
+
+    - name: Bring Tunnels back up
+      ios_interfaces:
+        config:
+          - name: Tunnel0
+            enabled: True
+          - name: Tunnel1
+            enabled: True 
+
+# Play 2
+- name: Configure Router(s)
+  hosts: tag_Name_nleiva_cisco_ios_2
+  connection: network_cli
+  become: true
+  become_method: enable
+  gather_facts: true
+
+  tasks:
+    - name: Test reachability to 203.0.113.1 (Router-1's Loopback)
+      ios_ping:
+        dest: 203.0.113.1
+        source: Loopback0
+        count: 2
