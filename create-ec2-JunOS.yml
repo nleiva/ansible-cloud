@@ -10,6 +10,7 @@
    - ec2_instance_type: c4.xlarge
    - ec2_ami_id: ami-0c97721215a4e542b
    - ec2_name_tag: nleiva-juniper-junos
+   - ec2_ansible_group_tag: Routers
    - ec2_security_group: network-insecure_all
    - ec2_vpc_subnet_id: subnet-0a121ad1006804c1c
    - ec2_keypair_name: networkshop-key

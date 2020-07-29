@@ -10,6 +10,7 @@
    - ec2_instance_type: t2.micro
    - ec2_ami_id: ami-0285100bb3546c0e7
    - ec2_name_tag: nleiva-fedora-32
+   - ec2_ansible_group_tag: Fedora
    - volume:
      - device_name: /dev/sda1
        volume_type: gp2

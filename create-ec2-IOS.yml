@@ -10,6 +10,7 @@
    - ec2_instance_type: t3.medium
    - ec2_ami_id: ami-02addb0b26ef52535
    - ec2_name_tag: nleiva-cisco-ios
+   - ec2_ansible_group_tag: Routers
    - ec2_security_group: network-insecure_all
    - ec2_vpc_subnet_id: subnet-0a121ad1006804c1c
    - ec2_keypair_name: networkshop-key

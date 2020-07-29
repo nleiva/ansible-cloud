@@ -14,6 +14,7 @@
    - ec2_instance_type: c4.large
    - ec2_ami_id: "{{ map['CSR_16_12'] }}"
    - ec2_name_tag: nleiva-cisco-ios
+   - ec2_ansible_group_tag: Routers
    - ec2_username: ec2-user
 
   tasks:

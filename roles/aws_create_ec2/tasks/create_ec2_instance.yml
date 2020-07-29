@@ -22,6 +22,7 @@
       Contact: "{{ ec2_contact_tag }}"
       AlwaysUp: "{{ ec2_always_up_tag }}"
       DeleteBy: "{{ ec2_delete_by_tag }}"
+      AnsibleGroup: "{{ ec2_ansible_group_tag }}"
     user_data: "{{ ec2_user_data }}"
   register: ec2
 

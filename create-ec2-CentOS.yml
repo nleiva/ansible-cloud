@@ -12,6 +12,7 @@
    - ec2_ami_id: ami-0affd4508a5d2481b
    - ec2_name_tag: nleiva-centos-7.8
    - ec2_username: centos
+   - ec2_ansible_group_tag: Centos
    - volume:
      - device_name: /dev/sda1
        volume_type: gp2
