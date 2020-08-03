@@ -63,11 +63,6 @@
       debug:
         msg: "{{ short_name }} -> {{ access }}"
 
-    - name: Temporary debug
-      debug:
-        msg: "{{ hostvars }}"
-      delegate_to: localhost
-
     - name: Send report e-mail using SendGrid
       sendgrid:
         api_key: "{{ sendgrid_api_key }}"
@@ -78,3 +73,4 @@
         # - test.yml
         body: "{{ lookup('template', 'report.j2') }}"
       delegate_to: localhost
+      run_once: True
