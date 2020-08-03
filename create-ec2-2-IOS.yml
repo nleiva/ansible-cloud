@@ -72,5 +72,6 @@
         # attachments:
         # - test.yml
         body: "{{ lookup('template', 'report.j2') }}"
+        html_body: true
       delegate_to: localhost
-      run_once: True
+      run_once: true
