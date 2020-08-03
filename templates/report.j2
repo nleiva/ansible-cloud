@@ -15,7 +15,7 @@
     <tbody>
 {% for device in ansible_play_hosts_all|sort %}
     <tr>
-        <td>{{ hostvars[device].name }}</td>
+        <td>{{ hostvars[device].hostname }}</td>
         <td>{{ hostvars[device].short_name }}</td>
         <td>{{ hostvars[device].access }}</td>
     </tr>
