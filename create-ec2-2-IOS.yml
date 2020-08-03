@@ -62,3 +62,14 @@
     - name: Routers access details
       debug:
         msg: "{{ short_name }} -> {{ access }}"
+
+    - name: Send report e-mail using SendGrid
+      sendgrid:
+        api_key: "{{ sendgrid_api_key }}"
+        from_address: "{{ sendgrid_from_address }}"
+        to_addresses: "{{ sendgrid_to_address }}"
+        subject: "{{ sendgrid_email_subject }}"
+        # attachments:
+        # - test.yml
+        body: "{{ lookup('template', 'report.j2') }}"
+      delegate_to: localhost
