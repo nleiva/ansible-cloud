@@ -1,2 +1,7 @@
 - name: Configure instance based based on its Linux distribution
   include_tasks: "{{ ansible_os_family }}.yml"
+
+# Restricting to "CentOS8" while I test it in other distros
+- name: Install Go
+  include_tasks: "install-go.yml"
+  when: ansible_distribution_major_version | int == 8

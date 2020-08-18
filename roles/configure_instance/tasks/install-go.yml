@@ -1,0 +1,12 @@
+---
+- name: Run installation Go module
+  include_role:
+    name: go
+
+- name: Update .bashrc
+  blockinfile:
+    path: "{{ HOME }}/.bashrc"
+    marker: '# {mark} ANSIBLE MANAGED BLOCK'
+    block: |
+      export GOROOT={{ GOROOT }}
+      export PATH=$PATH:$GOROOT/bin

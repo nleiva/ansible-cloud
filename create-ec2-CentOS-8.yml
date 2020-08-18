@@ -56,6 +56,14 @@
   vars:
    - epel_repo: epel-release
    - user: centos
+   # Go specific
+   - go_version: 1.15
+   - HOME: "/home/{{ user }}"
+   - GOPATH: "{{ HOME }}/go"
+   - GOROOT: /usr/local/go
+   - GOPROXY: https://proxy.golang.org
+   - GO111MODULE: "on"
+   - go_custom_mirror: https://golang.org/dl
 
   tasks:
     - name: Display variables/facts known for instance
