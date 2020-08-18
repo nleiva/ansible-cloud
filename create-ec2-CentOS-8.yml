@@ -9,7 +9,8 @@
   gather_facts: true
   vars:
    - ec2_instance_type: t2.micro
-   - ec2_ami_id: ami-0e838c5a10b513d09
+   # https://wiki.centos.org/Cloud/AWS#Images
+   - ec2_ami_id: ami-01ca03df4a6012157
    - ec2_name_tag: nleiva-centos-8
    - ec2_username: centos
    - ec2_ansible_group_tag: Centos
