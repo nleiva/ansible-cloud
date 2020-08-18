@@ -15,12 +15,33 @@
 
 - name: Install Docker CentOS8
   block:
-    # https://phoenixnap.com/kb/how-to-install-docker-on-centos-8
-    - name: Install Docker repo (to install Docker)
-      package:
-        name: https://download.docker.com/linux/centos/docker-ce.repo
+    - name: Add Docker GPG key.
+      rpm_key:
+        key: https://download.docker.com/linux/centos/gpg
         state: present
 
+    - name: Add Docker repository.
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: '/etc/yum.repos.d/docker-ce.repo'
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Enable Docker Edge repo
+      ini_file:
+        dest: /etc/yum.repos.d/docker-ce.repo
+        section: 'docker-ce-edge'
+        option: enabled
+        value: 0
+
+    - name: Enable Docker Test repo
+      ini_file:
+        dest: /etc/yum.repos.d/docker-ce.repo
+        section: 'docker-ce-test'
+        option: enabled
+        value: 0
+ 
     - name: Install containerd.io package manually
       package:
         name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.13-3.2.el7.x86_64.rpm
@@ -32,6 +53,7 @@
         - docker-ce
         state: present
   when: ansible_facts['distribution_version'] >= 8.0
+  # when: ansible_distribution_major_version | int == 8
   ignore_errors: yes
 
 - name: Install Docker CentOS7
