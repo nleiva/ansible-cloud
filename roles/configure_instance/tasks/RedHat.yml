@@ -13,7 +13,7 @@
   retries: 5
   delay: 10
 
-- name: Install Docker CentOS8
+- name: Install Docker on CentOS{{ ansible_distribution_major_version }}
   block:
     - name: Add Docker GPG key.
       rpm_key:
@@ -58,7 +58,7 @@
   when: ansible_distribution_major_version | int == 8
   ignore_errors: yes
 
-- name: Install Docker CentOS7
+- name: Install Docker on CentOS{{ ansible_distribution_major_version }}
   block:
     - name: Install Docker
       package:
@@ -104,11 +104,14 @@
       ansible_python_interpreter=/usr/bin/python3
 
 # https://blog.thewatertower.org/2019/06/08/using-red-hat-universal-base-images/
+# Fails on CentOS8
 - name: Create empty redhat-uep.pem file to run universal base images
   file:
     path: /etc/rhsm/ca/redhat-uep.pem
     state: touch
     mode: u=rw,g=r,o=r
+  when: ansible_distribution_major_version | int == 7
+  ignore_errors: yes
 
 - name: Change file ownership and group for Ansible config
   file:
