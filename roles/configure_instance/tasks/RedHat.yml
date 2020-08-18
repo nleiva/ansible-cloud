@@ -14,7 +14,7 @@
   delay: 10
 
 - name: Install base packages
-  yum:
+  package:
     name:
       - git
       - wget
@@ -26,11 +26,10 @@
       - bind-utils
       - docker
     state: present
-  register: yum_check
-  until: yum_check is not failed
+  register: package_check
+  until: package_check is not failed
   retries: 4
   delay: 5
-  when: ansible_pkg_mgr == "yum"
 
 - name: Install Python dependencies
   pip:
@@ -38,7 +37,7 @@
       - absl-py
       - ipaddress
       - capirca
-      #- ansible
+      - ansible
     executable: pip3
 
 - name: Update Ansible Interpeter for {{ user }} user
