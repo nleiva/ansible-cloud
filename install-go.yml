@@ -1,0 +1,31 @@
+---
+# ansible-galaxy install fubarhouse.golang
+# python $(which ansible-playbook) main.yml -vv
+
+- name: Install Go
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  vars:
+    - go_version: 1.15
+    - ec2_username: centos
+    - HOME: "/home/{{ ec2_username }}"
+    - GOPATH: "{{ HOME }}/go"
+    - GOROOT: /usr/local/go
+    - GOPROXY: https://proxy.golang.org
+    - GO111MODULE: "on"
+    - go_custom_mirror: https://golang.org/dl
+
+  tasks:
+    - name: Run installation Go module
+      include_role:
+        name: fubarhouse.golang
+
+    - name: Update .bashrc
+      blockinfile:
+        path: "{{ HOME }}/.bashrc"
+        marker: '# {mark} ANSIBLE MANAGED BLOCK'
+        block: |
+          export GOROOT={{ GOROOT }}
+          export PATH=$PATH:$GOROOT/bin

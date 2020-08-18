@@ -38,7 +38,7 @@
       - absl-py
       - ipaddress
       - capirca
-      - ansible
+      #- ansible
     executable: pip3
 
 - name: Update Ansible Interpeter for {{ user }} user
