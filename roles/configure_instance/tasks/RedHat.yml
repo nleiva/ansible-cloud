@@ -19,6 +19,7 @@
       rpm_key:
         key: https://download.docker.com/linux/centos/gpg
         state: present
+
     - name: Add Docker repository.
       get_url:
         url: https://download.docker.com/linux/centos/docker-ce.repo
@@ -26,6 +27,7 @@
         owner: root
         group: root
         mode: 0644
+
     - name: Enable Docker Edge repo
       ini_file:
         dest: /etc/yum.repos.d/docker-ce.repo
@@ -33,6 +35,7 @@
         option: enabled
         value: 0
         mode: u=rw,g=r,o=r
+
     - name: Enable Docker Test repo
       ini_file:
         dest: /etc/yum.repos.d/docker-ce.repo
@@ -40,17 +43,19 @@
         option: enabled
         value: 0
         mode: u=rw,g=r,o=r
+
     - name: Install containerd.io package manually
       package:
         name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.13-3.2.el7.x86_64.rpm
         state: present
+
     - name: Install Docker
       package:
         name:
         - docker-ce
         state: present
-  when: ansible_facts['distribution_version'] >= 8.0
-  # when: ansible_distribution_major_version | int == 8
+  #when: ansible_facts['distribution_version'] >= 8.0
+  when: ansible_distribution_major_version | int == 8
   ignore_errors: yes
 
 - name: Install Docker CentOS7
@@ -60,7 +65,7 @@
         name:
         - docker
         state: present
-  when: ansible_facts['distribution_version'] < 8.0
+  when: ansible_distribution_major_version | int == 7
   ignore_errors: yes
 
 - name: Install base packages
