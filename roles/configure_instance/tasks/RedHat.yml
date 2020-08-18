@@ -5,13 +5,44 @@
   when: hostvars['localhost']['instance_name'] is defined
 
 - name: Install EPEL repo (to install Ansible)
-  yum:
+  package:
     name: "{{ epel_repo }}"
     state: present
   register: result
   until: result is succeeded
   retries: 5
   delay: 10
+
+- name: Install Docker CentOS8
+  block:
+    # https://phoenixnap.com/kb/how-to-install-docker-on-centos-8
+    - name: Install Docker repo (to install Docker)
+      package:
+        name: https://download.docker.com/linux/centos/docker-ce.repo
+        state: present
+
+    - name: Install containerd.io package manually
+      package:
+        name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.13-3.2.el7.x86_64.rpm
+        state: present
+
+    - name: Install Docker
+      package:
+        name:
+        - docker-ce
+        state: present
+  when: ansible_facts['distribution_version'] >= 8.0
+  ignore_errors: yes
+
+- name: Install Docker CentOS7
+  block:
+    - name: Install Docker
+      package:
+        name:
+        - docker
+        state: present
+  when: ansible_facts['distribution_version'] < 8.0
+  ignore_errors: yes
 
 - name: Install base packages
   package:
@@ -24,7 +55,6 @@
       - ansible
       - gcc
       - bind-utils
-      - docker
     state: present
   register: package_check
   until: package_check is not failed
