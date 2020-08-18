@@ -62,6 +62,7 @@
     path: "/home/{{ user }}/.ansible.cfg"
     owner: "{{ user }}"
     group: "{{ user }}"
+    mode: preserve
 
 - name: Ensure group "docker" exists
   group:
