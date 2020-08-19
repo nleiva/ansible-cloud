@@ -1,12 +1,11 @@
 - name: Configure instance based based on its Linux distribution
   include_tasks: "{{ ansible_os_family }}.yml"
 
-# Restricting to "CentOS8" while I test it in other distros
+# Exclude "CentOS7" while I do some testing (yum and Python2/3 grrrrr)
 - name: Install Go
   include_tasks: "install-go.yml"
   when:
-    - ansible_facts['distribution'] == "CentOS"
-    - ansible_distribution_major_version | int == 7
+    - not (ansible_distribution_major_version | int == 7)
 
 - name: Print out SSH access details (you need the SSH Private-Key)
   debug:

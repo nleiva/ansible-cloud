@@ -91,6 +91,24 @@
   retries: 4
   delay: 5
 
+- name: Install Podman
+  block:
+    - name: Install Podman packages
+      package:
+        name:
+          - podman
+          - podman-docker
+        state: present
+
+    - name: Emulate Docker CLI using podman. Create /etc/containers/nodocker
+      file:
+        path: /etc/containers/nodocker
+        state: touch
+        mode: u=rw,g=r,o=r
+  when:
+    - ansible_facts['distribution'] == "Fedora"
+  ignore_errors: yes
+
 - name: Install Python dependencies
   pip:
     name:
