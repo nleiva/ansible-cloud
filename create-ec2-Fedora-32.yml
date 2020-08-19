@@ -1,0 +1,75 @@
+---
+# ansible-playbook create-ec2-Fedora-32.yml -vv
+
+# Play 1: Create instance on AWS
+- name: Create EC2 instance
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: true
+  vars:
+   - ec2_instance_type: t2.micro
+   # https://alt.fedoraproject.org/cloud/
+   - ec2_ami_id: ami-09f17ac4a76fd9ffe
+   - ec2_name_tag: nleiva-fedora-32
+   - ec2_ansible_group_tag: Fedora
+   - volume:
+     - device_name: /dev/sda1
+       volume_type: gp2
+       volume_size: 30
+       delete_on_termination: true
+
+
+  tasks:
+    - name: Create Fedora EC2 instance in AWS
+      include_role:
+        name: aws_create_ec2
+
+    - name: Grab facts for the instance(s) we just created
+      ec2_instance_info:
+        region: "{{ ec2_region }}"
+        filters:
+          instance-state-name: running
+          "tag:Name": "{{ ec2_name_tag }}"
+      register: ansible_node_facts
+
+    - name: Set facts for next play
+      set_fact:
+        instance_name: "{{ ec2_name_tag }}"
+
+    - name: Add instance(s) to my_instances group
+      add_host:
+        name: "{{ item.tags.Name }}"
+        ansible_host: "{{ item.public_ip_address }}"
+        ansible_user: "{{ ec2_username }}"
+        private_ip: "{{ item.private_ip_address }}"
+        groups:
+          - my_instances
+      with_items: "{{ ansible_node_facts.instances }}"
+
+
+# Play 2: Install packages
+- name: Configure Instance(s)
+  hosts: "my_instances"
+  become: true
+  gather_facts: true
+  vars:
+   - epel_repo: epel-release
+   - user: ec2-user
+   # Go specific
+   - go_version: 1.15
+   - HOME: "/home/{{ user }}"
+   - GOPATH: "{{ HOME }}/go"
+   - GOROOT: /usr/local/go
+   - GOPROXY: https://proxy.golang.org
+   - GO111MODULE: "on"
+   - go_custom_mirror: https://golang.org/dl
+
+  tasks:
+    - name: Display variables/facts known for instance
+      debug:
+        msg: "Running {{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_os_family }}), IP address: {{ ansible_host }}"
+
+    - name: Install packages and config files
+      include_role:
+        name: configure_instance
