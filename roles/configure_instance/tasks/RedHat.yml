@@ -76,15 +76,7 @@
 
 - name: Install base packages
   package:
-    name:
-      - git
-      - wget
-      - tree
-      - python3-pip
-      - python3-devel
-      - ansible
-      - gcc
-      - bind-utils
+    name: "{{ base_software }}"
     state: present
   register: package_check
   until: package_check is not failed
@@ -95,9 +87,7 @@
   block:
     - name: Install Podman packages
       package:
-        name:
-          - podman
-          - podman-docker
+        name: "{{ podman_software }}"
         state: present
 
     - name: Emulate Docker CLI using podman. Create /etc/containers/nodocker
@@ -111,11 +101,7 @@
 
 - name: Install Python dependencies
   pip:
-    name:
-      - absl-py
-      - ipaddress
-      - capirca
-      - ansible
+    name: "{{ python_libraries }}"
     executable: pip3
 
 - name: Update Ansible Interpeter for {{ user }} user
