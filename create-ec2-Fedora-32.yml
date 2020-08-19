@@ -12,6 +12,7 @@
    # https://alt.fedoraproject.org/cloud/
    - ec2_ami_id: ami-09f17ac4a76fd9ffe
    - ec2_name_tag: nleiva-fedora-32
+   - ec2_username: fedora
    - ec2_ansible_group_tag: Fedora
    - volume:
      - device_name: /dev/sda1
@@ -55,7 +56,7 @@
   gather_facts: true
   vars:
    - epel_repo: epel-release
-   - user: ec2-user
+   - user: fedora
    # Go specific
    - go_version: 1.15
    - HOME: "/home/{{ user }}"
