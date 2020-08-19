@@ -12,6 +12,8 @@
   until: result is succeeded
   retries: 5
   delay: 10
+  when:
+    - ansible_facts['distribution'] == "CentOS"
 
 - name: Install Docker on CentOS{{ ansible_distribution_major_version }}
   block:
@@ -55,7 +57,9 @@
         - docker-ce
         state: present
   #when: ansible_facts['distribution_version'] >= 8.0
-  when: ansible_distribution_major_version | int == 8
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_distribution_major_version | int == 8
   ignore_errors: yes
 
 - name: Install Docker on CentOS{{ ansible_distribution_major_version }}
@@ -65,7 +69,9 @@
         name:
         - docker
         state: present
-  when: ansible_distribution_major_version | int == 7
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_distribution_major_version | int == 7
   ignore_errors: yes
 
 - name: Install base packages
@@ -103,16 +109,6 @@
       interpreter_python=/usr/bin/python3
       ansible_python_interpreter=/usr/bin/python3
 
-# https://blog.thewatertower.org/2019/06/08/using-red-hat-universal-base-images/
-# Fails on CentOS8
-- name: Create empty redhat-uep.pem file to run universal base images
-  file:
-    path: /etc/rhsm/ca/redhat-uep.pem
-    state: touch
-    mode: u=rw,g=r,o=r
-  when: ansible_distribution_major_version | int == 7
-  ignore_errors: yes
-
 - name: Change file ownership and group for Ansible config
   file:
     path: "/home/{{ user }}/.ansible.cfg"
@@ -120,23 +116,36 @@
     group: "{{ user }}"
     mode: u=rw,g=r,o=r
 
-- name: Ensure group "docker" exists
-  group:
-    name: docker
-    state: present
+# https://blog.thewatertower.org/2019/06/08/using-red-hat-universal-base-images/
+# Fails on CentOS8
+- name: Create empty redhat-uep.pem file to run universal base images
+  file:
+    path: /etc/rhsm/ca/redhat-uep.pem
+    state: touch
+    mode: u=rw,g=r,o=r
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_distribution_major_version | int == 7
+  ignore_errors: yes
 
-- name: Append user {{ user }} to the group 'docker'
-  user:
-    name: "{{ user }}"
-    groups: docker
-    append: yes
+- name: Install Docker on CentOS{{ ansible_distribution_major_version }}
+  block:
+    - name: Ensure group "docker" exists
+      group:
+        name: docker
+        state: present
 
-- name: Ensure Docker is started and enabled at boot
-  service:
-    name: docker
-    state: started
-    enabled: true
+    - name: Append user {{ user }} to the group 'docker'
+      user:
+        name: "{{ user }}"
+        groups: docker
+        append: yes
 
-- name: Print the public IP address
-  debug:
-    msg: "TO CONNECT: ssh {{ user }}@{{ ansible_host }}"
+    - name: Ensure Docker is started and enabled at boot
+      service:
+        name: docker
+        state: started
+        enabled: true
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+  ignore_errors: yes

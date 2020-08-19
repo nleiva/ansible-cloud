@@ -4,4 +4,10 @@
 # Restricting to "CentOS8" while I test it in other distros
 - name: Install Go
   include_tasks: "install-go.yml"
-  when: ansible_distribution_major_version | int == 8
+  when:
+    - ansible_facts['distribution'] == "CentOS"
+    - ansible_distribution_major_version | int == 7
+
+- name: Print out SSH access details (you need the SSH Private-Key)
+  debug:
+    msg: "TO CONNECT: ssh {{ user }}@{{ ansible_host }}"
