@@ -1,5 +1,4 @@
 - name: Configure instance based based on its Linux distribution
-  become: true
   include_tasks: "{{ ansible_os_family }}.yml"
 
 # Exclude "CentOS7" while I do some testing (yum and Python2/3 grrrrr)

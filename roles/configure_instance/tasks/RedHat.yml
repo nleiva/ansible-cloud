@@ -108,6 +108,7 @@
   blockinfile:
     path: "/home/{{ user }}/.ansible.cfg"
     create: yes
+    mode: u=rw,g=r,o=r
     block: |
       [defaults]
       interpreter_python=/usr/bin/python3

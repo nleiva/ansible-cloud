@@ -51,7 +51,8 @@
 # Play 2: Install packages
 - name: Configure Instance(s)
   hosts: "my_instances"
-  #become: true
+  become: true
+  become_user: {{ user }}
   gather_facts: true
   vars:
    - epel_repo: epel-release
