@@ -64,6 +64,16 @@
    - GOPROXY: https://proxy.golang.org
    - GO111MODULE: "on"
    - go_custom_mirror: https://golang.org/dl
+   - golang_shell_profile: /etc/profile.d/go.sh
+   - go_get:
+       # Test install package with modules configured to on:
+       - name: golint
+         url: golang.org/x/lint/golint
+         modules: true
+       - name: guru
+         url: golang.org/x/tools/cmd/guru
+         modules: true
+
 
   tasks:
     - name: Display variables/facts known for instance
