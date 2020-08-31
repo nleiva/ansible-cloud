@@ -1,0 +1,53 @@
+---
+go_get:
+  - name: gocode
+    url: github.com/mdempsky/gocode
+    modules: true
+  - name: gopkgs
+    url: github.com/uudashr/gopkgs/v2/cmd/gopkgs
+    modules: true
+  - name: go-outline
+    url: github.com/ramya-rao-a/go-outline
+    modules: true
+  - name: go-symbols
+    url: github.com/acroca/go-symbols
+    modules: true
+  - name: guru
+    url: golang.org/x/tools/cmd/guru
+    modules: true
+  - name: gorename
+    url: golang.org/x/tools/cmd/gorename
+    modules: true
+  - name: gotests
+    url: github.com/cweill/gotests/...
+    modules: true
+  - name: gomodifytags
+    url: github.com/fatih/gomodifytags
+    modules: true
+  - name: impl
+    url: github.com/josharian/impl
+    modules: true
+  - name: fillstruct
+    url: github.com/davidrjenni/reftools/cmd/fillstruct
+    modules: true
+  - name: goplay
+    url: github.com/haya14busa/goplay/cmd/goplay
+    modules: true
+  - name: godoctor
+    url: github.com/godoctor/godoctor
+    modules: true
+  - name: delve
+    url: github.com/go-delve/delve/cmd/dlv
+    modules: true
+  - name: gocode
+    url: github.com/stamblerre/gocode
+    modules: true
+  - name: godef
+    url: github.com/rogpeppe/godef
+    modules: true
+  - name: goreturns
+    url: github.com/sqs/goreturns
+    modules: true
+  - name: golint
+    url: golang.org/x/lint/golint
+    modules: true

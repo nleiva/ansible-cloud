@@ -1,0 +1,9 @@
+# Go specific
+go_version: 1.15
+HOME: "/home/{{ user }}"
+GOPATH: "{{ HOME }}/go"
+GOROOT: /usr/local/go
+GOPROXY: https://proxy.golang.org
+GO111MODULE: "on"
+go_custom_mirror: https://golang.org/dl
+golang_shell_profile: /etc/profile.d/go.sh
