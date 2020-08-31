@@ -17,4 +17,5 @@ jobs:
       uses: ansible/ansible-lint-action@master
       with:
         targets: "*.yml"
-        args: ""
+        # Avoid annoying 'File permissions not mentioned'
+        args: "-x 208"
