@@ -1,5 +1,8 @@
 - name: Configure instance based based on its Linux distribution
   include_tasks: "{{ ansible_os_family }}.yml"
+  args:
+    apply:
+      become: yes
 
 # Exclude "CentOS7" while I do some testing (yum and Python2/3 grrrrr)
 - name: Install Go
