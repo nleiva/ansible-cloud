@@ -10,3 +10,11 @@
 #     block: |
 #       export GOROOT={{ GOROOT }}
 #       export PATH=$PATH:$GOROOT/bin
+
+- name: Recursively change ownership of Go's local directory
+  file:
+    path: "/home/{{ user }}/go"
+    state: directory
+    recurse: yes
+    owner: "{{ user }}"
+    group: "{{ user }}"
