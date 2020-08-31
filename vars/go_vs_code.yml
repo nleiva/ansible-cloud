@@ -51,3 +51,6 @@ go_get:
   - name: golint
     url: golang.org/x/lint/golint
     modules: true
+  - name: gopls
+    url: golang.org/x/tools/gopls
+    modules: true
