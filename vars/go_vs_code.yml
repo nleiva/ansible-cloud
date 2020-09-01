@@ -1,6 +1,6 @@
 ---
 go_get:
-  - name: gocode
+  - name: gocode-1
     url: github.com/mdempsky/gocode
     modules: true
   - name: gopkgs
@@ -39,7 +39,7 @@ go_get:
   - name: delve
     url: github.com/go-delve/delve/cmd/dlv
     modules: true
-  - name: gocode
+  - name: gocode-2
     url: github.com/stamblerre/gocode
     modules: true
   - name: godef
@@ -53,4 +53,7 @@ go_get:
     modules: true
   - name: gopls
     url: golang.org/x/tools/gopls
+    modules: true
+  - name: goimports
+    url: golang.org/x/tools/cmd/goimports
     modules: true
