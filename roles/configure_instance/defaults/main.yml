@@ -7,6 +7,7 @@ base_software:
 - python3-pip
 - python3-devel
 - ansible               # Fix RPM and PIP install (keep just one)
+- ansible-lint
 - gcc
 - bind-utils
 
