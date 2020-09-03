@@ -7,7 +7,6 @@ base_software:
 - python3-pip
 - python3-devel
 - ansible               # Fix RPM and PIP install (keep just one)
-- ansible-lint
 - gcc
 - bind-utils
 
@@ -17,6 +16,7 @@ podman_software:
 
 python_libraries:
 - absl-py
+- ansible-lint
 - ipaddress
 - capirca
 - ansible               # Fix RPM and PIP install (keep just one)
