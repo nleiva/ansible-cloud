@@ -12,8 +12,12 @@
   until: result is succeeded
   retries: 5
   delay: 10
+  vars:
+    - distro:
+        - CentOS
+        - RedHat
   when:
-    - ansible_facts['distribution'] == "CentOS"
+    - ansible_facts['distribution'] in distro
 
 - name: Install Docker on CentOS{{ ansible_distribution_major_version }}
   block:
