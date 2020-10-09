@@ -99,8 +99,12 @@
         path: /etc/containers/nodocker
         state: touch
         mode: u=rw,g=r,o=r
+  vars:
+    - distro:
+        - Fedora
+        - RedHat
   when:
-    - ansible_facts['distribution'] == "Fedora"
+    - ansible_facts['distribution'] in distro
   ignore_errors: yes
 
 - name: Install Python dependencies
