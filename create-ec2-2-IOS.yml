@@ -22,6 +22,7 @@
       pip:
         name: sendgrid==2.2.1
         executable: pip3
+      become: yes
       async: 300
       poll: 15
 
