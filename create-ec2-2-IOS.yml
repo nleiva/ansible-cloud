@@ -18,13 +18,13 @@
    - ec2_username: ec2-user
 
   tasks:
-    - name: Make sure Python dependencies are met
-      pip:
-        name: sendgrid==2.2.1
-        executable: pip3
-      become: yes
-      async: 300
-      poll: 15
+    # - name: Make sure Python dependencies are met
+    #   pip:
+    #     name: sendgrid==2.2.1
+    #     executable: pip3
+    #   become: yes
+    #   async: 300
+    #   poll: 15
 
     - name: Loop to create N=2 instances
       include_tasks: create-ec2-2-IOS-tasks.yml
