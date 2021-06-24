@@ -3,11 +3,12 @@
     name: "{{ ec2_name_tag }}"
     region: "{{ ec2_region }}"
     instance_type: "{{ ec2_instance_type }}"
-    image: "{{ ec2_ami_id }}"
+    image_id: "{{ ec2_ami_id }}"
     key_name: "{{ ec2_resource_prefix }}-key"
     vpc_subnet_id: "{{ create_subnet.subnet.id }}"
-    assign_public_ip: true
-    group: "{{ ec2_resource_prefix }}-insecure-SG"
+    network:
+      assign_public_ip: true
+    security_group: "{{ ec2_resource_prefix }}-insecure-SG"
     wait: yes
     volumes: "{{ ec2_volume }}"
     tags:
