@@ -9,7 +9,7 @@
   delay: 15
   register: s3_result
   until:
-    - s3_result.failed is false
+    - s3_result.failed == false
 
 - name: Create SSH Key Pair for instance
   amazon.aws.ec2_key:
