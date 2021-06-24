@@ -1,21 +1,9 @@
----
-# Default variable values for EC2 instance creation.
-
-# Region
 ec2_region: us-east-1
 
 # Instance variables 
-ec2_instance_type: t2.micro
-ec2_ami_id: ami-0285100bb3546c0e7
-ec2_keypair_name: nleiva-KeyPair
-ec2_user_data: "{{ lookup('template', 'userdata_linux.j2') }}"
 ec2_volume: "{{ volume | default(omit) }}"
 
-# Networking
-ec2_vpc_subnet_id: subnet-0383710f86fb34dd4
-ec2_security_group: nleiva-SG
-ec2_public_ipv4: true
-
-# Instance Tags
-ec2_name_tag: Ansible_Created_EC2
-ec2_provisioner_tag: Ansible
+ec2_cidr_block: "172.18.0.0/16"
+ec2_subnet: "172.18.0.0/24"
+ec2_delete_by_tag: "{{ ansible_date_time.date | replace('-','.') }}"
+ec2_environment: "{{ ec2_resource_prefix }}"
