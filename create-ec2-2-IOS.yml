@@ -46,7 +46,7 @@
   hosts: "my_routers"
   connection: network_cli
   become: true
-  strategy: free
+  #strategy: free
   become_method: enable
   gather_facts: true
 
