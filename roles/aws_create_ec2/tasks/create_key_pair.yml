@@ -33,3 +33,13 @@
     encrypt: true
     region: "{{ ec2_region }}"
   when: create_key.changed
+
+- name: Save Private key from S3 Bucket when not generating it
+  amazon.aws.aws_s3:
+    bucket: "{{ ec2_resource_prefix|lower }}.{{ s3_identifier|lower }}.private"
+    mode: get
+    object: "{{ ec2_resource_prefix }}-private.pem"
+    dest: "{{ playbook_dir }}/{{ ec2_resource_prefix }}-private.pem"
+    encrypt: true
+    region: "{{ ec2_region }}"
+  when: not create_key.changed
