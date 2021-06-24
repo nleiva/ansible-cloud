@@ -63,6 +63,11 @@
       debug:
         msg: "{{ short_name }} -> {{ access }}"
 
+    - name: Print out SSH access details
+      ansible.builtin.debug:
+        msg: "{{ hostvars[inventory_hostname]['instance_ssh'] }}"
+      when: hostvars[inventory_hostname]['instance_ssh'] is defined
+
     - name: Send report e-mail using SendGrid
       sendgrid:
         api_key: "{{ sendgrid_api_key }}"
