@@ -15,7 +15,7 @@
    - ec2_username: ec2-user
 
   roles:
-      - { role: install_dependencies }
+      - { role: install_dependencies, become: yes }
 
   tasks:
     - name: Loop to create N=2 instances
