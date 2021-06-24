@@ -4,3 +4,6 @@ collections:
       source: https://galaxy.ansible.com
     - name: community.aws
       source: https://galaxy.ansible.com
+    - name: community.general
+      version: 3.2.0
+      source: https://galaxy.ansible.com
