@@ -12,7 +12,7 @@
     - name: Save AMI ID for Cisco IOS
       set_fact:
         ec2_ami_id: >
-          {{ ec2_ami_list.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last | | json_query('image_id') }}
+          {{ ec2_ami_list.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last | json_query('image_id') }}
   when: my_os == "ios"
 
 - name: Check Arista EOS AMI
