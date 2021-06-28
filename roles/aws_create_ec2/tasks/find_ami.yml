@@ -13,7 +13,7 @@
       set_fact:
         ec2_ami_id: >
           {{ ec2_ami_list.images | selectattr('name', 'defined') |
-             sort(attribute='creation_date') | last | json_query('image_id') | trim }}
+             sort(attribute='creation_date') | last | json_query('image_id') | replace('\n', '') }}
   when: my_os == "ios"
 
 - name: Check Arista EOS AMI
@@ -30,7 +30,8 @@
     - name: Save AMI ID for Arista EOS
       set_fact:
         ec2_ami_id: >
-          {{ ec2_ami_list.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last | json_query('image_id') }}
+          {{ ec2_ami_list.images | selectattr('name', 'defined') |
+             sort(attribute='creation_date') | last | json_query('image_id') }}
   when: my_os == "eos"
 
 - name: Check Juniper vSRX AMI
@@ -47,7 +48,8 @@
     - name: Save AMI ID for Juniper vSRX
       set_fact:
         ec2_ami_id: >
-          {{ ec2_ami_list.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last | json_query('image_id') }}
+          {{ ec2_ami_list.images | selectattr('name', 'defined') |
+             sort(attribute='creation_date') | last | json_query('image_id') }}
   when: my_os == "junos"
 
 - name: Check F5 BIGIP AMI
@@ -64,7 +66,8 @@
     - name: Save AMI ID for F5 BIGIP
       set_fact:
         ec2_ami_id: >
-          {{ ec2_ami_list.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last | json_query('image_id') }}
+          {{ ec2_ami_list.images | selectattr('name', 'defined') |
+             sort(attribute='creation_date') | last | json_query('image_id') }}
 
     - name: Update username for F5 BIGIP
       set_fact:
