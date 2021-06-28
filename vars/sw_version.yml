@@ -5,3 +5,19 @@ map:
   CSR_16_09: ami-02addb0b26ef52535
   CSR_16_10: ami-0d3ac2938d00c2f9b
   CSR_16_12: ami-0fc7a3d5400f4619d
+  CSR_16_12_05: ami-02dc259ccbfac00e4
+  CSR_17_03_02: ami-06fb3765405ee3735
+  CSR_17_03_03: ami-0b9ccf33549b340cf
+  CSR_SDWAN_16_11_01: ami-06c11c40e6cae166c 
+  vEOS_4.22: ami-02d809cefa12fcf14
+  vsrx3_19_3: ami-0a1f2a9d07eae7d93
+  vsrx3_19_4: ami-016c15d19bd2cbf61
+  vsrx3_20_2: ami-08f14be3686ca0f51
+  vsrx3_20_3: ami-0ef38a8e3c526d39d
+  vsrx3_20_4: ami-0081c1b6ed588c82e
+  F5_BIGIP_15_1_2: ami-0c0a28362686c2f82
+  F5_BIGIP_16_0_1: ami-04598bbc0fdd5b545
+  CP_CloudGuard_mgmt_R80_40: ami-0865dc54a1e682fd7
+  CP_CloudGuard_mgmt_R81_392: ami-0d416e1e154458dc8
+  CP_CloudGuard_gw_R80_40: ami-095f333c582f88e83
+  CP_CloudGuard_gw_R81_392: ami-095f333c582f88e83
