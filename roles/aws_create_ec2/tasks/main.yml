@@ -16,5 +16,8 @@
 - name: Create Route Table
   include_tasks: create_rt_table.yml
 
+- name: Check AMI
+  include_tasks: find_ami.yml
+
 - name: Provision EC2 Instance
   include_tasks: create_ec2_instance.yml

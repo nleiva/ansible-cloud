@@ -1,0 +1,71 @@
+- name: Check Cisco IOS AMI
+  block:
+    - name: Find AMI for Cisco IOS
+      ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_ami_owner }}"
+        filters:
+          name: "cisco-CSR-.16.09.02-BYOL*"
+          architecture: "x86_64"
+      register: ec2_ami_list
+
+    - name: Save AMI ID for Cisco IOS
+      set_fact:
+        ec2_ami_id: >
+          {{ ec2_ami_list.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+  when: my_os == "ios"
+
+- name: Check Arista EOS AMI
+  block:
+    - name: Find AMI for Arista EOS
+      ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_ami_owner }}"
+        filters:
+          name: "*VEOSRouter*"
+          architecture: "x86_64"
+      register: ec2_ami_list
+
+    - name: Save AMI ID for Arista EOS
+      set_fact:
+        ec2_ami_id: >
+          {{ ec2_ami_list.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+  when: my_os == "eos"
+
+- name: Check Juniper vSRX AMI
+  block:
+    - name: Find AMI for Juniper vSRX
+      ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_ami_owner }}"
+        filters:
+          name: "junos-vsrx3-x86-*byol*"
+          architecture: "x86_64"
+      register: ec2_ami_list
+
+    - name: Save AMI ID for Juniper vSRX
+      set_fact:
+        ec2_ami_id: >
+          {{ ec2_ami_list.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+  when: my_os == "junos"
+
+- name: Check F5 BIGIP AMI
+  block:
+    - name: Find AMI for F5 BIGIP
+      ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_ami_owner }}"
+        filters:
+          name: 'F5 BIGIP-16.0.*PAYG-Best 25Mbps*'
+          architecture: "x86_64"
+      register: ec2_ami_list
+
+    - name: Save AMI ID for F5 BIGIP
+      set_fact:
+        ec2_ami_id: >
+          {{ ec2_ami_list.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+
+    - name: Update username for F5 BIGIP
+      set_fact:
+        ec2_username: admin
+  when: my_os == "bigip"
