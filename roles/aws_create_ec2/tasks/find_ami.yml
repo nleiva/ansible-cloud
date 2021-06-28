@@ -13,7 +13,7 @@
       set_fact:
         ec2_ami_id: >
           {{ ec2_ami_list.images | selectattr('name', 'defined') |
-             sort(attribute='creation_date') | last | json_query('image_id') | replace('\n', '') | trim }}
+             sort(attribute='creation_date') | last | json_query('image_id') | replace('\n', '') }}
   when: my_os == "ios"
 
 - name: Check Arista EOS AMI
