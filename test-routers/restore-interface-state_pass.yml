@@ -5,7 +5,7 @@
 
 # Play 1
 - name: Validate Connectivity
-  hosts: "{{ my_devices }}"
+  hosts: "{{ my_neighbor }}"
   gather_facts: "{{ my_facts }}"
   connection: network_cli
   become: true
@@ -20,4 +20,5 @@
         config:
           - name: "{{ item }}"
             enabled: "{{ state }}"
+            description: "{{ my_description | default('N/A') }}"
       with_items: "{{ interfaces }}"
