@@ -5,7 +5,7 @@
   # become: true
   #strategy: free
   #become_method: enable
-  gather_facts: true
+  #gather_facts: true
 
   tasks:
     - name: Send report e-mail using SendGrid
@@ -14,7 +14,7 @@
         from_address: "{{ sendgrid_from_address }}"
         to_addresses: "{{ sendgrid_to_address }}"
         subject: "{{ sendgrid_email_subject }}"
-        body: "{{ Everything looks good }}"
-        html_body: true
+        body: "Everything looks good"
+        #html_body: true
       #delegate_to: localhost
       #run_once: true
