@@ -17,6 +17,16 @@
     outcome: present
 
   tasks:
+    - name: Save hostname
+      set_stats:
+        data:
+          my_description: "TO: {{ ansible_net_hostname }} - Code:{{ 101 | random }}"
+
+    - name: Save next device
+      set_stats:
+        data:
+          my_neighbor: tag_Name_nleiva_cisco_ios_1
+
     - name: Test reachability to {{ dest_ip }} ({{ remote_host }})
       ios_ping:
         dest: "{{ dest_ip }}"
@@ -28,13 +38,3 @@
     - name: Print out ping result to {{ dest_ip }} ({{ remote_host }})
       debug:
         msg: "Executed '{{ result.commands }}' with {{ result.packet_loss }} packet loss"
-
-    - name: Save hostname
-      set_stats:
-        data:
-          my_description: "TO: {{ ansible_net_hostname }} - Code:{{ 101 | random }}"
-
-    - name: Save next device
-      set_stats:
-        data:
-          my_neighbor: tag_Name_nleiva_cisco_ios_1
