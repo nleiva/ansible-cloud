@@ -27,7 +27,7 @@
         loop_var: router_number
 
     - name: Grab all network interfaces for VPC (NETWORKING MODE)
-      amazon.aws.ec2_eni_facts:
+      amazon.aws.ec2_eni_info:
         region: "{{ ec2_region }}"
         filters:
           vpc-id: "{{ create_vpc.vpc.id }}"

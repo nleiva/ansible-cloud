@@ -7,13 +7,3 @@
   register: igw
   until: igw is not failed
   retries: 5
-
-# - name: Create Internet Gateway (NETWORK MODE)
-#   community.aws.ec2_vpc_igw:
-#     region: "{{ ec2_region }}"
-#     vpc_id: "{{ create_vpc_net.vpc.id }}"
-#     tags:
-#       Environment: "{{ ec2_environment }}"
-#   register: igw_net
-#   until: igw_net is not failed
-#   retries: 5
