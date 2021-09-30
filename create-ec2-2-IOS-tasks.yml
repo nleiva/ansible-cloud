@@ -12,17 +12,20 @@
 - name: Add instance {{ router_number }} to my_routers group
   add_host:
     name: "{{ item.tags.Name }}"
-    ansible_host: "{{ item.public_ip }}"
+    ansible_host: "{{ item.public_ip_address }}"
     ansible_user: "{{ ec2_username }}"
     ansible_network_os: "{{ my_os }}"
-    private_ip: "{{ item.private_ip }}"
+    private_ip: "{{ item.private_ip_address }}"
     short_name: "rtr{{ router_number }}"
     site: "{{ router_number }}"
-    access: "ssh ec2-user@{{ rtr_facts['instances'][0]['public_ip'] }}"
+    # access: "ssh {{ ec2_username }}@{{ rtr_facts['instances'][0]['public_ip_address'] }}"
+    access: "{{ ssh_info }}"
+    ansible_ssh_private_key_file: "{{ playbook_dir }}/{{ ec2_resource_prefix }}-private.pem"
+    instance_ssh: "{{ ssh_info }}"
     groups:
       - my_routers
   with_items: "{{ rtr_facts.instances }}"
 
-- name: Print out Router-{{ router_number }} Private IP
-  debug:
-    var: rtr_facts['instances'][0]['private_ip']
+# - name: Print out Router-{{ router_number }} Private IP
+#   debug:
+#     var: rtr_facts['instances'][0]['private_ip_address']

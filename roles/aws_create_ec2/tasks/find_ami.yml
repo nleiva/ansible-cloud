@@ -1,0 +1,75 @@
+- name: Check Cisco IOS AMI
+  block:
+    - name: Find AMI for Cisco IOS
+      amazon.aws.ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_ami_owner }}"
+        filters:
+          name: "cisco-CSR-.16.09.02-BYOL*"
+          architecture: "x86_64"
+      register: ec2_ami_list
+
+    - name: Save AMI ID for Cisco IOS
+      ansible.builtin.set_fact:
+        ec2_ami_id: >
+          {{ ec2_ami_list.images | selectattr('name', 'defined') |
+             sort(attribute='creation_date') | last | json_query('image_id') | replace('\n', '') }}
+  when: my_os == "ios"
+
+- name: Check Arista EOS AMI
+  block:
+    - name: Find AMI for Arista EOS
+      amazon.aws.ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_ami_owner }}"
+        filters:
+          name: "*VEOSRouter*"
+          architecture: "x86_64"
+      register: ec2_ami_list
+
+    - name: Save AMI ID for Arista EOS
+      ansible.builtin.set_fact:
+        ec2_ami_id: >
+          {{ ec2_ami_list.images | selectattr('name', 'defined') |
+             sort(attribute='creation_date') | last | json_query('image_id') }}
+  when: my_os == "eos"
+
+- name: Check Juniper vSRX AMI
+  block:
+    - name: Find AMI for Juniper vSRX
+      amazon.aws.ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_ami_owner }}"
+        filters:
+          name: "junos-vsrx3-x86-*byol*"
+          architecture: "x86_64"
+      register: ec2_ami_list
+
+    - name: Save AMI ID for Juniper vSRX
+      ansible.builtin.set_fact:
+        ec2_ami_id: >
+          {{ ec2_ami_list.images | selectattr('name', 'defined') |
+             sort(attribute='creation_date') | last | json_query('image_id') }}
+  when: my_os == "junos"
+
+- name: Check F5 BIGIP AMI
+  block:
+    - name: Find AMI for F5 BIGIP
+      amazon.aws.ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: "{{ ec2_ami_owner }}"
+        filters:
+          name: 'F5 BIGIP-16.0.*PAYG-Best 25Mbps*'
+          architecture: "x86_64"
+      register: ec2_ami_list
+
+    - name: Save AMI ID for F5 BIGIP
+      ansible.builtin.set_fact:
+        ec2_ami_id: >
+          {{ ec2_ami_list.images | selectattr('name', 'defined') |
+             sort(attribute='creation_date') | last | json_query('image_id') }}
+
+    - name: Update username for F5 BIGIP
+      ansible.builtin.set_fact:
+        ec2_username: admin
+  when: my_os == "bigip"

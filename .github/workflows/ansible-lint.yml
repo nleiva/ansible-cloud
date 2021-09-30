@@ -17,5 +17,8 @@ jobs:
       uses: ansible/ansible-lint-action@master
       with:
         targets: "*.yml"
-        # Avoid annoying 'File permissions not mentioned'
-        args: "-x 208"
+        # Avoid annoying 
+        # [208] File permissions not mentioned
+        # [503] Tasks that run when changed should likely be handle
+        # [601] Don't compare to literal True/False
+        args: "-x 208,503,601"

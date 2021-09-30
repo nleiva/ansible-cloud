@@ -1,6 +1,0 @@
----
-ec2_security_group: network-insecure_all
-ec2_vpc_subnet_id: subnet-0a121ad1006804c1c
-ec2_keypair_name: networkshop-key
-ec2_user_data: ''
-ec2_vpc_id: vpc-067602393f45a4429

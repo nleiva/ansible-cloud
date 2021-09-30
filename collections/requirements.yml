@@ -1,0 +1,11 @@
+collections:
+    # A mix of the two until amazon.aws absorbs all the modules required in this repo.
+    - name: amazon.aws
+      version: 2.0.0
+      source: https://galaxy.ansible.com
+    # - name: community.aws
+    #   version: 2.0.0
+    #   source: https://galaxy.ansible.com
+    - name: community.general
+      version: 3.2.0
+      source: https://galaxy.ansible.com

@@ -1,6 +1,4 @@
----
-# ansible-playbook create-ec2-2-IOS.yml -vv
-
+# Play 1: Create the routers
 - name: Create EC2 instance(s)
   hosts: localhost
   connection: local
@@ -8,7 +6,6 @@
   gather_facts: true
   vars_files:
     - ./vars/sw_version.yml
-    - ./vars/aws_specifics.yml
     - ./vars/aws_common.yml
   vars:
    - ec2_instance_type: c4.large
@@ -17,17 +14,12 @@
    - ec2_ansible_group_tag: Routers
    - ec2_username: ec2-user
 
-  tasks:
-    # - name: Make sure Python dependencies are met
-    #   pip:
-    #     name: sendgrid==2.2.1
-    #     executable: pip3
-    #   become: yes
-    #   async: 300
-    #   poll: 15
+  # roles:
+  #     - { role: install_dependencies, become: yes }
 
+  tasks:
     - name: Loop to create N=2 instances
-      include_tasks: create-ec2-2-IOS-tasks.yml
+      ansible.builtin.include_tasks: create-ec2-2-IOS-tasks.yml
       loop:
         - 1
         - 2
@@ -35,14 +27,14 @@
         loop_var: router_number
 
     - name: Grab all network interfaces for VPC (NETWORKING MODE)
-      ec2_eni_facts:
+      amazon.aws.ec2_eni_info:
         region: "{{ ec2_region }}"
         filters:
-          vpc-id: "{{ ec2_vpc_id }}"
+          vpc-id: "{{ create_vpc.vpc.id }}"
       register: eni_facts
 
     - name: Disable Source/Dest check on instances (NETWORKING MODE)
-      ec2_eni:
+      amazon.aws.ec2_eni:
         eni_id: "{{ item['network_interface_id'] }}"
         region: "{{ ec2_region }}"
         source_dest_check: false
@@ -54,31 +46,34 @@
   hosts: "my_routers"
   connection: network_cli
   become: true
-  strategy: free
+  #strategy: free
   become_method: enable
   gather_facts: true
 
   tasks:
     - name: Display variables/facts for each router
-      debug:
+      ansible.builtin.debug:
         msg: "Running {{ ansible_net_model }} {{ ansible_net_version }}, IP address: {{ ansible_host }}"
 
     - name: Configure routers
-      include_role:
+      ansible.builtin.include_role:
         name: configure_routers
 
     - name: Routers access details
-      debug:
+      ansible.builtin.debug:
         msg: "{{ short_name }} -> {{ access }}"
 
+    - name: Print out SSH access details
+      ansible.builtin.debug:
+        msg: "{{ hostvars[inventory_hostname]['instance_ssh'] }}"
+      when: hostvars[inventory_hostname]['instance_ssh'] is defined
+
     - name: Send report e-mail using SendGrid
-      sendgrid:
+      community.general.sendgrid:
         api_key: "{{ sendgrid_api_key }}"
         from_address: "{{ sendgrid_from_address }}"
         to_addresses: "{{ sendgrid_to_address }}"
         subject: "{{ sendgrid_email_subject }}"
-        # attachments:
-        # - test.yml
         body: "{{ lookup('template', 'report.j2') }}"
         html_body: true
       delegate_to: localhost
