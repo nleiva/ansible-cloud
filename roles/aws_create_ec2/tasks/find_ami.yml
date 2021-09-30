@@ -1,7 +1,7 @@
 - name: Check Cisco IOS AMI
   block:
     - name: Find AMI for Cisco IOS
-      ec2_ami_info:
+      amazon.aws.ec2_ami_info:
         region: "{{ ec2_region }}"
         owners: "{{ ec2_ami_owner }}"
         filters:
@@ -10,7 +10,7 @@
       register: ec2_ami_list
 
     - name: Save AMI ID for Cisco IOS
-      set_fact:
+      ansible.builtin.set_fact:
         ec2_ami_id: >
           {{ ec2_ami_list.images | selectattr('name', 'defined') |
              sort(attribute='creation_date') | last | json_query('image_id') | replace('\n', '') }}
@@ -19,7 +19,7 @@
 - name: Check Arista EOS AMI
   block:
     - name: Find AMI for Arista EOS
-      ec2_ami_info:
+      amazon.aws.ec2_ami_info:
         region: "{{ ec2_region }}"
         owners: "{{ ec2_ami_owner }}"
         filters:
@@ -28,7 +28,7 @@
       register: ec2_ami_list
 
     - name: Save AMI ID for Arista EOS
-      set_fact:
+      ansible.builtin.set_fact:
         ec2_ami_id: >
           {{ ec2_ami_list.images | selectattr('name', 'defined') |
              sort(attribute='creation_date') | last | json_query('image_id') }}
@@ -37,7 +37,7 @@
 - name: Check Juniper vSRX AMI
   block:
     - name: Find AMI for Juniper vSRX
-      ec2_ami_info:
+      amazon.aws.ec2_ami_info:
         region: "{{ ec2_region }}"
         owners: "{{ ec2_ami_owner }}"
         filters:
@@ -46,7 +46,7 @@
       register: ec2_ami_list
 
     - name: Save AMI ID for Juniper vSRX
-      set_fact:
+      ansible.builtin.set_fact:
         ec2_ami_id: >
           {{ ec2_ami_list.images | selectattr('name', 'defined') |
              sort(attribute='creation_date') | last | json_query('image_id') }}
@@ -55,7 +55,7 @@
 - name: Check F5 BIGIP AMI
   block:
     - name: Find AMI for F5 BIGIP
-      ec2_ami_info:
+      amazon.aws.ec2_ami_info:
         region: "{{ ec2_region }}"
         owners: "{{ ec2_ami_owner }}"
         filters:
@@ -64,12 +64,12 @@
       register: ec2_ami_list
 
     - name: Save AMI ID for F5 BIGIP
-      set_fact:
+      ansible.builtin.set_fact:
         ec2_ami_id: >
           {{ ec2_ami_list.images | selectattr('name', 'defined') |
              sort(attribute='creation_date') | last | json_query('image_id') }}
 
     - name: Update username for F5 BIGIP
-      set_fact:
+      ansible.builtin.set_fact:
         ec2_username: admin
   when: my_os == "bigip"
