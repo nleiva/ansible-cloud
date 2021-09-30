@@ -8,14 +8,3 @@
   register: create_subnet
   until: create_subnet is not failed
   retries: 5
-
-# - name: Create Subnet (NETWORK MODE)
-#   amazon.aws.ec2_vpc_subnet:
-#     region: "{{ ec2_region }}"
-#     vpc_id: "{{ create_vpc_net.vpc.id }}"
-#     cidr: "{{ ec2_subnet_net }}"
-#     tags:
-#       Environment: "{{ ec2_environment }}"
-#   register: create_subnet_net
-#   until: create_subnet_net is not failed
-#   retries: 5

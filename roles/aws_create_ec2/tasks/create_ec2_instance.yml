@@ -1,5 +1,5 @@
 - name: Provision EC2 instances
-  community.aws.ec2_instance:
+  amazon.aws.ec2_instance:
     name: "{{ ec2_name_tag }}"
     region: "{{ ec2_region }}"
     instance_type: "{{ ec2_instance_type }}"
