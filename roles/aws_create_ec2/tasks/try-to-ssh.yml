@@ -2,6 +2,7 @@
   ansible.builtin.wait_for:
     host: "{{ item.public_ip_address }}"
     port: 22
+    timeout: 480
     state: started
 
 - name: Print the public IP address
