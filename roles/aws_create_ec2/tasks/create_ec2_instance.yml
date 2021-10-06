@@ -45,5 +45,5 @@
   when: got_ip.failed
 
 - name: Wait for SSH to come up
-  ansible.builtin.include_tasks: try-to-ssh.yml
+  ansible.builtin.include: try-to-ssh.yml
   with_items: "{{ ec2.instances }}"
