@@ -44,6 +44,10 @@
       pub_ip: "{{ ec2.instances[0].public_ip_address }}"
   when: got_ip.failed
 
+- name: TEMP
+  ansible.builtin.debug:
+    msg: "{{ ec2 }}"
+
 - name: Wait for SSH to come up
   ansible.builtin.include: try-to-ssh.yml
   with_items: "{{ ec2.instances }}"
