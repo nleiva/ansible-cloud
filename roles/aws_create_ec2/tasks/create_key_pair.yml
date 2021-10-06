@@ -10,6 +10,12 @@
   register: s3_result
   until: not s3_result.failed
 
+- name: Create SSH Key Pair for instance
+  amazon.aws.ec2_key:
+    name: "{{ ec2_resource_prefix }}-key"
+    region: "{{ ec2_region }}"
+  register: create_key
+
 - name: Save Private Key
   block:
   - name: Save Private Key locally
