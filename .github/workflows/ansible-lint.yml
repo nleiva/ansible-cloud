@@ -19,5 +19,4 @@ jobs:
         targets: "*.yml"
         # Avoid annoying 
         # [208] File permissions not mentioned
-        # [601] Don't compare to literal True/False
-        args: "-x 208,601"
+        args: "-x 208"
