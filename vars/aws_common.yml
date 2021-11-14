@@ -4,3 +4,8 @@ s3_identifier: "{{ aws_s3 | default('networking') }}"
 ec2_contact_tag: "{{ ec2_contact | default('nleiva@redhat.com') }}"
 ec2_ami_owner: "{{ ami_owner | default('679593333241') }}"
 aws_instances: []
+
+pubkey_file: "{{ filepath1 | default('~/.ssh/id_rsa.pub') }}"
+private_key_file: "{{ filepath2 | default('~/.ssh/id_rsa') }}"
+ssh_pubkey: "{{ lookup('file', pubkey_file) }}"
+ssh_private_key: "{{ lookup('file', private_key_file) }}"

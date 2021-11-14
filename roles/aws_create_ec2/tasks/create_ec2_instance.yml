@@ -20,11 +20,6 @@
   ansible.builtin.set_fact:
     aws_instances: "{{ aws_instances }} + [ '{{ ec2.instances[0].instance_id }}' ]"
 
-- name: Save public IP address - First try
-  ansible.builtin.set_fact:
-    pub_ip: "{{ ec2.instances[0].public_ip_address }}"
-  ignore_errors: yes
-
 - name: Get EC2 info (to give it time to get the public IP address)
   amazon.aws.ec2_instance_info:
     region: "{{ ec2_region }}"
@@ -35,8 +30,10 @@
       # 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped)
       instance-state-code: [ "0", "16" ]
   register: ec2
+  until: ec2.instances[0].public_ip_address is defined
+  retries: 10
 
-- name: Save public IP address - Second try
+- name: Save public IP address
   ansible.builtin.set_fact:
     pub_ip: "{{ ec2.instances[0].public_ip_address }}"
   ignore_errors: yes
