@@ -4,6 +4,10 @@ collections:
     - name: community.general
       version: 4.0.1
     - name: cisco.ios
-      version: 2.0.0
+      version: 2.5.0
+    - name: cisco.nxos
+      version: 2.7.1
+    - name: cisco.iosxr
+      version: 2.5.0
     - name: ansible.netcommon
-      version: 2.0.0   
+      version: 2.4.0   

@@ -9,3 +9,4 @@ paramiko
 jxmlease
 ncclient
 xmltodict
+scp
