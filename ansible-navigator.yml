@@ -16,7 +16,7 @@ ansible-navigator:
     container-engine: podman
     enabled: true
     pull-policy: missing
-    image: quay.io/nleiva/ee-general-image
+    image: quay.io/nleiva/ee_general_image
     environment-variables:
       pass:
         - AWS_ACCESS_KEY_ID
