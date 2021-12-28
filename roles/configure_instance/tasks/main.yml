@@ -6,7 +6,7 @@
 
 # Exclude "CentOS7" while I do some testing (yum and Python2/3 grrrrr)
 - name: Install Go
-  include_tasks: "install-go.yml"
+  include_tasks: "install_go.yml"
   when:
     - not (ansible_distribution_major_version | int == 7)
 

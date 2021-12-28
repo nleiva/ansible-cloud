@@ -1,9 +1,12 @@
 # Go specific
-go_version: 1.15
+go_version: 1.18beta1
 HOME: "/home/{{ user }}"
 GOPATH: "{{ HOME }}/go"
 GOROOT: /usr/local/go
 GOPROXY: https://proxy.golang.org
-GO111MODULE: "on"
-go_custom_mirror: https://golang.org/dl
-golang_shell_profile: /etc/profile.d/go.sh
+type:
+  x86_64: amd64
+  armv7l: armv7
+GOARCH: "{{ type[ansible_architecture] }}"
+GOOS: "{{ ansible_system | lower }}"
+go_download_url: "https://golang.org/dl/go{{ go_version }}.{{ GOOS }}-{{ GOARCH }}.tar.gz"
