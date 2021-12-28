@@ -1,5 +1,5 @@
 ---
-# ansible-playbook create-ec2-Fedora-35.yml -vv
+# ansible-playbook create-ec2-Fedora-35.yml -e "ssh_pubkey=..." -v
 
 # Play 1: Create instance on AWS
 - name: Create EC2 instance
@@ -23,11 +23,11 @@
 
   tasks:
     - name: Create Fedora EC2 instance in AWS
-      include_role:
+      ansible.builtin.include_role:
         name: aws_create_ec2
 
     - name: Grab facts for the instance(s) we just created
-      ec2_instance_info:
+      amazon.aws.ec2_instance_info:
         region: "{{ ec2_region }}"
         filters:
           instance-state-name: running
@@ -35,11 +35,11 @@
       register: ansible_node_facts
 
     - name: Set facts for next play
-      set_fact:
+      ansible.builtin.set_fact:
         instance_name: "{{ ec2_name_tag }}"
 
     - name: Add instance(s) to my_instances group
-      add_host:
+      ansible.builtin.add_host:
         name: "{{ item.tags.Name }}"
         ansible_host: "{{ item.public_ip_address }}"
         ansible_user: "{{ ec2_username }}"
@@ -63,9 +63,9 @@
 
   tasks:
     - name: Display variables/facts known for instance
-      debug:
+      ansible.builtin.debug:
         msg: "Running {{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_os_family }}), IP address: {{ ansible_host }}"
 
     - name: Install packages and config files
-      include_role:
+      ansible.builtin.include_role:
         name: configure_instance
