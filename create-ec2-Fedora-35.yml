@@ -1,4 +1,3 @@
----
 # ansible-playbook create-ec2-Fedora-35.yml -e "ssh_pubkey=..." -v
 
 # Play 1: Create instance on AWS
@@ -7,19 +6,9 @@
   connection: local
   become: false
   gather_facts: true
-  vars:
-   - ec2_instance_type: t2.medium
-   # https://alt.fedoraproject.org/cloud/
-   - ec2_ami_id: ami-08b4ee602f76bff79
-   - ec2_name_tag: nleiva-fedora-35
-   - ec2_username: fedora
-   - ec2_ansible_group_tag: Fedora
-   - volume:
-     - device_name: /dev/sda1
-       volume_type: gp2
-       volume_size: 30
-       delete_on_termination: true
-
+  vars_files:
+    - ./vars/fedora.yml
+    - ./vars/aws_common.yml
 
   tasks:
     - name: Create Fedora EC2 instance in AWS
