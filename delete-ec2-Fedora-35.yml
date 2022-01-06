@@ -8,6 +8,8 @@
   vars_files:
     - ./vars/fedora.yml
     - ./vars/aws_common.yml
+  vars:
+    ec2_environment: "{{ ec2_resource_prefix }}"
 
   tasks:
     - name: Delete EC2 instance
