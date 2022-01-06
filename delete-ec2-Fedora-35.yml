@@ -1,0 +1,20 @@
+# ansible-playbook delete-ec2-Fedora-35.yml -e "ssh_pubkey=..." -v
+
+- name: Delete EC2 instance
+  hosts: localhost
+  connection: local
+  become: false
+  gather_facts: true
+  vars_files:
+    - ./vars/fedora.yml
+    - ./vars/aws_common.yml
+
+  tasks:
+    - name: Delete EC2 instance
+      community.aws.ec2_instance:
+        region: "{{ ec2_region }}"
+        state: absent
+        filters:
+          instance-state-name: running
+          "tag:Name": "{{ ec2_name_tag }}"
+          "tag:Environment": "{{ ec2_environment }}"
