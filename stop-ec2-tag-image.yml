@@ -4,7 +4,6 @@
 # Play 1: Stop instance on AWS and delete if required
 - name: Stop EC2 instance by Name TAG
   hosts: localhost
-  connection: local
   become: false
   gather_facts: false
   vars:
@@ -14,7 +13,7 @@
 
   tasks:
     - name: Stop instances
-      ec2:
+      amazon.aws.ec2_instance:
         region: "{{ ec2_region }}"
         instance_tags:
             Name: "{{ ec2_name_tag }}"
@@ -27,7 +26,7 @@
 
     # Need to wait a bit before destroying them. TODO: add a wait task.
     - name: Destroy instances
-      ec2:
+      amazon.aws.ec2_instance:
         region: "{{ ec2_region }}"
         state: absent
         instance_ids: "{{ stopped_instances.instance_ids | list }}"
