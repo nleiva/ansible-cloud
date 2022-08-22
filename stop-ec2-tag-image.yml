@@ -15,8 +15,9 @@
     - name: Stop instances
       amazon.aws.ec2_instance:
         region: "{{ ec2_region }}"
-        instance_tags:
+        tags:
             Name: "{{ ec2_name_tag }}"
+            Environment: "{{ ec2_environment }}"
         state: stopped
       register: stopped_instances
 
