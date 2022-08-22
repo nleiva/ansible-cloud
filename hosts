@@ -1,4 +1,4 @@
-localhost   ansible_python_interpreter="/usr/bin/env python3"
+localhost
 
 [all:vars]
 # Replace this with real values
