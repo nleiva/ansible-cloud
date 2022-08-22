@@ -43,8 +43,8 @@ router bgp {{ device[short_name].local_as }}
 !
  address-family ipv4
   neighbor {{ device[neighbor].bgp_ip }} activate
-  network {{ (device[short_name].primary_tunnel_ip ~ '/24') | ansible.netcommon.ipaddr('network') }} mask 255.255.255.0
-  network {{ (device[short_name].secondary_tunnel_ip ~ '/24') | ansible.netcommon.ipaddr('network') }} mask 255.255.255.0
-  network {{ (private_ip ~ '/16') | ansible.netcommon.ipaddr('network') }}
+  network {{ (device[short_name].primary_tunnel_ip ~ '/24') | ansible.utils.ipaddr('network') }} mask 255.255.255.0
+  network {{ (device[short_name].secondary_tunnel_ip ~ '/24') | ansible.utils.ipaddr('network') }} mask 255.255.255.0
+  network {{ (private_ip ~ '/16') | ansible.utils.ipaddr('network') }}
   network 100.64.0.0 mask 255.192.0.0
  exit-address-family
