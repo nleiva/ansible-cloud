@@ -1,0 +1,9 @@
+# This makes linter to fully ignore rules/tags listed below
+skip_list:
+  - git-latest
+  - experimental
+  - yaml  # Violations reported by yamllint.
+
+# This makes the linter display but not fail for rules/tags listed below:
+warn_list:
+  - unpredictability

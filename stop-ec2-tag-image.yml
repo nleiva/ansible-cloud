@@ -22,7 +22,7 @@
       register: stopped_instances
 
     - name: Print out instances to be deleted (it won't do it by default)
-      debug:
+      ansible.builtin.debug:
         msg: "Instances to be deleted if defined: {{ stopped_instances.instance_ids | join(', ') }}"
 
     # Need to wait a bit before destroying them. TODO: add a wait task.

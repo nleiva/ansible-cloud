@@ -1,11 +1,11 @@
 ---
 - name: Setup hostname
-  hostname:
+  ansible.builtin.hostname:
     name: "{{ hostvars['localhost']['instance_name'] }}"
   when: hostvars['localhost']['instance_name'] is defined
 
 - name: Install EPEL repo (to install Ansible)
-  package:
+  ansible.builtin.package:
     name: "{{ epel_repo }}"
     state: present
   register: result
@@ -22,20 +22,20 @@
 - name: Install Docker on CentOS{{ ansible_distribution_major_version }}
   block:
     - name: Add Docker GPG key.
-      rpm_key:
+      ansible.builtin.rpm_key:
         key: https://download.docker.com/linux/centos/gpg
         state: present
 
     - name: Add Docker repository.
-      get_url:
+      ansible.builtin.get_url:
         url: https://download.docker.com/linux/centos/docker-ce.repo
         dest: '/etc/yum.repos.d/docker-ce.repo'
         owner: root
-        group: root
+        ansible.builtin.group: root
         mode: 0644
 
     - name: Enable Docker Edge repo
-      ini_file:
+      ansible.builtin.ini_file:
         dest: /etc/yum.repos.d/docker-ce.repo
         section: 'docker-ce-edge'
         option: enabled
@@ -43,7 +43,7 @@
         mode: u=rw,g=r,o=r
 
     - name: Enable Docker Test repo
-      ini_file:
+      ansible.builtin.ini_file:
         dest: /etc/yum.repos.d/docker-ce.repo
         section: 'docker-ce-test'
         option: enabled
@@ -51,12 +51,12 @@
         mode: u=rw,g=r,o=r
 
     - name: Install containerd.io package manually
-      package:
+      ansible.builtin.package:
         name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.13-3.2.el7.x86_64.rpm
         state: present
 
     - name: Install Docker
-      package:
+      ansible.builtin.package:
         name:
         - docker-ce
         state: present
@@ -64,22 +64,22 @@
   when:
     - ansible_facts['distribution'] == "CentOS"
     - ansible_distribution_major_version | int == 8
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install Docker on CentOS{{ ansible_distribution_major_version }}
   block:
     - name: Install Docker
-      package:
+      ansible.builtin.package:
         name:
         - docker
         state: present
   when:
     - ansible_facts['distribution'] == "CentOS"
     - ansible_distribution_major_version | int == 7
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install base packages
-  package:
+  ansible.builtin.package:
     name: "{{ base_software }}"
     state: present
   register: package_check
@@ -90,12 +90,12 @@
 - name: Install Podman
   block:
     - name: Install Podman packages
-      package:
+      ansible.builtin.package:
         name: "{{ podman_software }}"
         state: present
 
     - name: Emulate Docker CLI using podman. Create /etc/containers/nodocker
-      file:
+      ansible.builtin.file:
         path: /etc/containers/nodocker
         state: touch
         mode: u=rw,g=r,o=r
@@ -105,17 +105,17 @@
         - RedHat
   when:
     - ansible_facts['distribution'] in distro
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install Python dependencies
-  pip:
+  ansible.builtin.pip:
     name: "{{ python_libraries }}"
     executable: pip3
 
 - name: Update Ansible Interpeter for {{ user }} user
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: "/home/{{ user }}/.ansible.cfg"
-    create: yes
+    create: true
     mode: u=rw,g=r,o=r
     block: |
       [defaults]
@@ -123,42 +123,42 @@
       ansible_python_interpreter=/usr/bin/python3
 
 - name: Change file ownership and group for Ansible config
-  file:
+  ansible.builtin.file:
     path: "/home/{{ user }}/.ansible.cfg"
     owner: "{{ user }}"
-    group: "{{ user }}"
+    ansible.builtin.group: "{{ user }}"
     mode: u=rw,g=r,o=r
 
 # https://blog.thewatertower.org/2019/06/08/using-red-hat-universal-base-images/
 # Fails on CentOS8
 - name: Create empty redhat-uep.pem file to run universal base images
-  file:
+  ansible.builtin.file:
     path: /etc/rhsm/ca/redhat-uep.pem
     state: touch
     mode: u=rw,g=r,o=r
   when:
     - ansible_facts['distribution'] == "CentOS"
     - ansible_distribution_major_version | int == 7
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Install Docker on CentOS{{ ansible_distribution_major_version }}
   block:
     - name: Ensure group "docker" exists
-      group:
+      ansible.builtin.group:
         name: docker
         state: present
 
     - name: Append user {{ user }} to the group 'docker'
-      user:
+      ansible.builtin.user:
         name: "{{ user }}"
         groups: docker
-        append: yes
+        append: true
 
     - name: Ensure Docker is started and enabled at boot
-      service:
+      ansible.builtin.service:
         name: docker
         state: started
         enabled: true
   when:
     - ansible_facts['distribution'] == "CentOS"
-  ignore_errors: yes
+  ignore_errors: true

@@ -26,5 +26,5 @@
       register: result
 
     - name: Print out ping result to {{ dest_ip }} ({{ remote_host }})
-      debug:
+      ansible.builtin.debug:
         msg: "Executed '{{ result.commands }}' with {{ result.packet_loss }} packet loss"

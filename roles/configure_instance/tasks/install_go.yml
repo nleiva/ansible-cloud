@@ -13,7 +13,7 @@
   ansible.builtin.unarchive:
     src: "/tmp/go{{ go_version }}.tar.gz"
     dest: "/usr/local"
-    remote_src: yes
+    remote_src: true
     mode: '0755'
 
 # .bash_profile does not exist in Ubuntu
@@ -26,6 +26,6 @@
   ansible.builtin.file:
     path: "/home/{{ user }}/go"
     state: directory
-    recurse: yes
+    recurse: true
     owner: "{{ user }}"
     group: "{{ user }}"

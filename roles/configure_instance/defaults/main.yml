@@ -1,5 +1,4 @@
 ---
-
 base_software:
 - git
 - wget

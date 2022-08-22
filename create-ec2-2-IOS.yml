@@ -8,14 +8,14 @@
     - ./vars/sw_version.yml
     - ./vars/aws_common.yml
   vars:
-   - ec2_instance_type: c4.large
-   - ec2_ami_id: "{{ map['CSR_16_12'] }}"
-   - ec2_name_tag: nleiva-cisco-ios
-   - ec2_ansible_group_tag: Routers
-   - ec2_username: ec2-user
+    - ec2_instance_type: c4.large
+    - ec2_ami_id: "{{ map['CSR_16_12'] }}"
+    - ec2_name_tag: nleiva-cisco-ios
+    - ec2_ansible_group_tag: Routers
+    - ec2_username: ec2-user
 
   # roles:
-  #     - { role: install_dependencies, become: yes }
+  #     - { role: install_dependencies, become: true }
 
   tasks:
     - name: Loop to create N=2 instances
@@ -39,14 +39,14 @@
         region: "{{ ec2_region }}"
         source_dest_check: false
       with_items:
-      - "{{ eni_facts['network_interfaces'] }}"
+        - "{{ eni_facts['network_interfaces'] }}"
 
 # Play 2: Configure routers we just created
 - name: Configure Router(s)
   hosts: "my_routers"
   connection: network_cli
   become: true
-  #strategy: free
+  # strategy: free
   become_method: enable
   gather_facts: true
 

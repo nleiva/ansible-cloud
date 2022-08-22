@@ -47,7 +47,6 @@
           - my_instances
       with_items: "{{ ansible_node_facts.instances }}"
 
-
 # Play 2: Install packages
 - name: Configure Instance(s)
   hosts: "my_instances"
@@ -62,7 +61,7 @@
 
   tasks:
     - name: Display variables/facts known for instance
-      debug:
+      ansible.builtin.debug:
         msg: "Running {{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_os_family }}), IP address: {{ ansible_host }}"
 
     - name: Install packages and config files

@@ -18,5 +18,5 @@
 
   tasks:
     - name: Create EC2 instance in AWS
-      include_role:
+      ansible.builtin.include_role:
         name: aws_create_ec2

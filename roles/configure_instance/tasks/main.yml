@@ -1,15 +1,15 @@
 - name: Configure instance based based on its Linux distribution
-  include_tasks: "{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}.yml"
   # args:
   #   apply:
-  #     become: yes
+  #     become: true
 
 # Exclude "CentOS7" while I do some testing (yum and Python2/3 grrrrr)
 - name: Install Go
-  include_tasks: "install_go.yml"
+  ansible.builtin.include_tasks: "install_go.yml"
   when:
     - not (ansible_distribution_major_version | int == 7)
 
 - name: Print out SSH access details (you need the SSH Private-Key)
-  debug:
+  ansible.builtin.debug:
     msg: "TO CONNECT: ssh {{ user }}@{{ ansible_host }}"

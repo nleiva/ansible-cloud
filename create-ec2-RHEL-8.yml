@@ -19,7 +19,6 @@
        volume_size: 30
        delete_on_termination: true
 
-
   tasks:
     - name: Create Fedora EC2 instance in AWS
       include_role:
@@ -62,7 +61,7 @@
 
   tasks:
     - name: Display variables/facts known for instance
-      debug:
+      ansible.builtin.debug:
         msg: "Running {{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_os_family }}), IP address: {{ ansible_host }}"
 
     - name: Install packages and config files

@@ -23,5 +23,5 @@
       register: config
 
     - name: Print out config changes on interface {{ interface }})
-      debug:
+      ansible.builtin.debug:
         msg: "Config after changes:\n {{ config.after }}"

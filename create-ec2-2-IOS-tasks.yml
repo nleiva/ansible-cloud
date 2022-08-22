@@ -1,16 +1,16 @@
 ---
 - name: Create EC2 instance {{ router_number }} in AWS
-  include_role:
+  ansible.builtin.include_role:
     name: aws_create_ec2
   vars:
     - ec2_name_tag: "nleiva-cisco-ios-{{ router_number }}"
 
 - name: Save Router-{{ router_number }} data
-  set_fact:
+  ansible.builtin.set_fact:
     rtr_facts: "{{ ec2 }}"
 
 - name: Add instance {{ router_number }} to my_routers group
-  add_host:
+  ansible.builtin.add_host:
     name: "{{ item.tags.Name }}"
     ansible_host: "{{ item.public_ip_address }}"
     ansible_user: "{{ ec2_username }}"
@@ -25,7 +25,3 @@
     groups:
       - my_routers
   with_items: "{{ rtr_facts.instances }}"
-
-# - name: Print out Router-{{ router_number }} Private IP
-#   debug:
-#     var: rtr_facts['instances'][0]['private_ip_address']

@@ -9,7 +9,7 @@
     network:
       assign_public_ip: true
     security_group: "{{ ec2_resource_prefix }}-insecure-SG"
-    wait: yes
+    wait: true
     volumes: "{{ ec2_volume }}"
     tags:
       Environment: "{{ ec2_environment }}"
@@ -36,7 +36,7 @@
 - name: Save public IP address
   ansible.builtin.set_fact:
     pub_ip: "{{ ec2.instances[0].public_ip_address }}"
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Wait for SSH to come up
   ansible.builtin.include_tasks: try-to-ssh.yml
