@@ -10,6 +10,7 @@
    - ec2_name_tag: nleiva-centos-7.8
    - ec2_region: us-east-1
    - delete: false
+   - ec2_environment: "{{ aws_prefix | default('ansible') }}"
 
   tasks:
     - name: Stop instances
