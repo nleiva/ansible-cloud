@@ -2,9 +2,9 @@
 my_os: ios
 # Map SW version to AMI id 
 map:
-  CSR_16_09: ami-02addb0b26ef52535
+  CSR_16_09: ami-0757fda069f5fce5d
   CSR_16_10: ami-0d3ac2938d00c2f9b
-  CSR_16_12: ami-0fc7a3d5400f4619d
+  CSR_16_12: ami-067c66abd840abc24
   CSR_16_12_05: ami-02dc259ccbfac00e4
   CSR_17_03_02: ami-06fb3765405ee3735
   CSR_17_03_03: ami-0b9ccf33549b340cf

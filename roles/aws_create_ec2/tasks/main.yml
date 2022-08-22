@@ -16,9 +16,9 @@
 - name: Create Route Table
   ansible.builtin.include_tasks: create_rt_table.yml
 
-- name: Check AMI
-  ansible.builtin.include_tasks: find_ami.yml
-  when: my_os is defined
+# - name: Check AMI
+#   ansible.builtin.include_tasks: find_ami.yml
+#   when: my_os is defined
 
 - name: Provision EC2 Instance
   ansible.builtin.include_tasks: create_ec2_instance.yml
