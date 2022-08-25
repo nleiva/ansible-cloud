@@ -7,18 +7,18 @@
   become: false
   gather_facts: false
   vars:
-   - ec2_name_tag: nleiva-centos-7.8
-   - ec2_region: us-east-1
-   - delete: false
-   - ec2_environment: "{{ aws_prefix | default('ansible') }}"
+    - ec2_name_tag: nleiva-centos-7.8
+    - ec2_region: us-east-1
+    - delete: false
+    - ec2_environment: "{{ aws_prefix | default('ansible') }}"
 
   tasks:
     - name: Stop instances
       amazon.aws.ec2_instance:
         region: "{{ ec2_region }}"
         tags:
-            Name: "{{ ec2_name_tag }}"
-            Environment: "{{ ec2_environment }}"
+          Name: "{{ ec2_name_tag }}"
+          Environment: "{{ ec2_environment }}"
         state: stopped
       register: stopped_instances
 

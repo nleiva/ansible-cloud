@@ -12,7 +12,7 @@
   become_method: enable
   vars:
     interface: Tunnel1
-    state: False
+    state: false
 
   tasks:
     - name: Modify {{ interface }}

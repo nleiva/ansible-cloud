@@ -28,7 +28,7 @@
       "tag:Environment": "{{ ec2_environment }}"
       "tag:Contact": "{{ ec2_contact_tag }}"
       # 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped)
-      instance-state-code: [ "0", "16" ]
+      instance-state-code: ["0", "16"]
   register: ec2
   until: ec2.instances[0].public_ip_address is defined
   retries: 10

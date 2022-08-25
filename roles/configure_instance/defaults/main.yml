@@ -1,23 +1,23 @@
 ---
 base_software:
-- git
-- wget
-- tree
-- python3-pip
-- python3-devel
-- ansible               # Fix RPM and PIP install (keep just one)
-- gcc
-- bind-utils
+  - git
+  - wget
+  - tree
+  - python3-pip
+  - python3-devel
+  - ansible               # Fix RPM and PIP install (keep just one)
+  - gcc
+  - bind-utils
 
 podman_software:
-- podman
-- podman-docker
+  - podman
+  - podman-docker
 
 python_libraries:
-- absl-py
-- ansible-lint
-- ipaddress
-- capirca
-- ansible               # Fix RPM and PIP install (keep just one)
+  - absl-py
+  - ansible-lint
+  - ipaddress
+  - capirca
+  - ansible               # Fix RPM and PIP install (keep just one)
 
 software_additional: []

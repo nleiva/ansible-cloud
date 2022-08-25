@@ -2,7 +2,6 @@
 skip_list:
   - git-latest
   - experimental
-  - yaml  # Violations reported by yamllint.
 
 # This makes the linter display but not fail for rules/tags listed below:
 warn_list:

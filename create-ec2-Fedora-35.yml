@@ -48,8 +48,8 @@
     - ./vars/go_install.yml
     - ./vars/go_vs_code.yml
   vars:
-   - epel_repo: epel-release
-   - user: fedora
+    - epel_repo: epel-release
+    - user: fedora
 
   tasks:
     - name: Display variables/facts known for instance

@@ -1,9 +1,8 @@
 # Ansible Cloud examples
 
-![Ansible Lint](https://github.com/nleiva/ansible-cloud/workflows/Ansible%20Lint/badge.svg)
+[![Ansible Lint](https://github.com/nleiva/ansible-cloud/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/nleiva/ansible-cloud/actions/workflows/ansible-lint.yml)
 
-
-Proper documentation in the works.
+Proper documentation is in the works.
 
 
 ## Dependencies:
@@ -37,4 +36,3 @@ Image details in [execution-environment.yml](execution-environment.yml). This is
 ```bash
 ansible-builder build -t quay.io/nleiva/ee_general_image
 ```
-

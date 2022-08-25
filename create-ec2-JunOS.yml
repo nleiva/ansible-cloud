@@ -7,20 +7,20 @@
   become: false
   gather_facts: true
   vars:
-   - ec2_instance_type: c4.xlarge
-   - ec2_ami_id: ami-0c97721215a4e542b
-   - ec2_name_tag: nleiva-juniper-junos
-   - ec2_ansible_group_tag: Routers
-   - ec2_security_group: network-insecure_all
-   - ec2_vpc_subnet_id: subnet-0a121ad1006804c1c
-   - ec2_keypair_name: networkshop-key
-   - ec2_user_data: ''
-   - volume:
-      - device_name: /dev/sda1
-        volume_type: io1
-        iops: 1000
-        volume_size: 40
-        delete_on_termination: true
+    - ec2_instance_type: c4.xlarge
+    - ec2_ami_id: ami-0c97721215a4e542b
+    - ec2_name_tag: nleiva-juniper-junos
+    - ec2_ansible_group_tag: Routers
+    - ec2_security_group: network-insecure_all
+    - ec2_vpc_subnet_id: subnet-0a121ad1006804c1c
+    - ec2_keypair_name: networkshop-key
+    - ec2_user_data: ''
+    - volume:
+        - device_name: /dev/sda1
+          volume_type: io1
+          iops: 1000
+          volume_size: 40
+          delete_on_termination: true
 
   tasks:
     - name: Create EC2 instance in AWS

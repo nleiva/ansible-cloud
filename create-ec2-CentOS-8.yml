@@ -8,17 +8,17 @@
   become: false
   gather_facts: true
   vars:
-   - ec2_instance_type: t2.micro
-   # https://wiki.centos.org/Cloud/AWS#Images
-   - ec2_ami_id: ami-01ca03df4a6012157
-   - ec2_name_tag: nleiva-centos-8
-   - ec2_username: centos
-   - ec2_ansible_group_tag: Centos
-   - volume:
-     - device_name: /dev/sda1
-       volume_type: gp2
-       volume_size: 30
-       delete_on_termination: true
+    - ec2_instance_type: t2.micro
+    # https://wiki.centos.org/Cloud/AWS#Images
+    - ec2_ami_id: ami-01ca03df4a6012157
+    - ec2_name_tag: nleiva-centos-8
+    - ec2_username: centos
+    - ec2_ansible_group_tag: Centos
+    - volume:
+        - device_name: /dev/sda1
+          volume_type: gp2
+          volume_size: 30
+          delete_on_termination: true
 
   tasks:
     - name: Create CentOS EC2 instance in AWS
@@ -56,8 +56,8 @@
     - ./vars/go_install.yml
     - ./vars/go_vs_code.yml
   vars:
-   - epel_repo: epel-release
-   - user: centos
+    - epel_repo: epel-release
+    - user: centos
 
   tasks:
     - name: Display variables/facts known for instance

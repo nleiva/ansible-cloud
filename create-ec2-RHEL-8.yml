@@ -8,16 +8,16 @@
   become: false
   gather_facts: true
   vars:
-   - ec2_instance_type: t2.micro
-   - ec2_ami_id: ami-058f90e71a7d69115
-   - ec2_name_tag: nleiva-rhel-8
-   - ec2_username: ec2-user
-   - ec2_ansible_group_tag: RHEL
-   - volume:
-     - device_name: /dev/sda1
-       volume_type: gp2
-       volume_size: 30
-       delete_on_termination: true
+    - ec2_instance_type: t2.micro
+    - ec2_ami_id: ami-058f90e71a7d69115
+    - ec2_name_tag: nleiva-rhel-8
+    - ec2_username: ec2-user
+    - ec2_ansible_group_tag: RHEL
+    - volume:
+        - device_name: /dev/sda1
+          volume_type: gp2
+          volume_size: 30
+          delete_on_termination: true
 
   tasks:
     - name: Create Fedora EC2 instance in AWS
@@ -56,8 +56,8 @@
     - ./vars/go_install.yml
     - ./vars/go_vs_code.yml
   vars:
-   - epel_repo: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-   - user: ec2-user
+    - epel_repo: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    - user: ec2-user
 
   tasks:
     - name: Display variables/facts known for instance

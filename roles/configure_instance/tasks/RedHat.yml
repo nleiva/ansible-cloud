@@ -58,9 +58,9 @@
     - name: Install Docker
       ansible.builtin.package:
         name:
-        - docker-ce
+          - docker-ce
         state: present
-  #when: ansible_facts['distribution_version'] >= 8.0
+  # when: ansible_facts['distribution_version'] >= 8.0
   when:
     - ansible_facts['distribution'] == "CentOS"
     - ansible_distribution_major_version | int == 8
@@ -71,7 +71,7 @@
     - name: Install Docker
       ansible.builtin.package:
         name:
-        - docker
+          - docker
         state: present
   when:
     - ansible_facts['distribution'] == "CentOS"

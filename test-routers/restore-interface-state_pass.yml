@@ -12,7 +12,7 @@
   become_method: enable
   vars:
     interfaces: [Tunnel0, Tunnel1]
-    state: True
+    state: true
 
   tasks:
     - name: Bring interfaces back up
